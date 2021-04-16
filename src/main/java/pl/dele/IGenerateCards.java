@@ -2,7 +2,7 @@ package pl.dele;
 
 import java.util.ArrayList;
 
-public interface IDownloadCards {
+public interface IGenerateCards {
 
     /**
      * Return the desired number of cards

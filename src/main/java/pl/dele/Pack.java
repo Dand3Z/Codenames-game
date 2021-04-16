@@ -11,12 +11,10 @@ public class Pack {
     // == fields ==
     private final List<Card> cards;
     private int amount = 25; // 5 x 5
+    private IGenerateCards reader;
 
     // == constructors ==
     public Pack() {
-        // IDownloadCards ...
-        // IDownloadCards get all cards and
-        // return (amount) cards
         cards = null; //temp
     }
 

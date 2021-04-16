@@ -13,7 +13,7 @@ import java.util.Scanner;
 /**
  * Get cards from file
  */
-public class FileCardsReader implements IDownloadCards{
+public class FileCardsReader implements IGenerateCards {
 
     // == fields ==
     // logger
