@@ -28,13 +28,21 @@ public class FileCards implements IDownloadCards{
     }
 
     public FileCards(String PATH) {
-        this.PATH = PATH;
+        // protection
+        if (PATH == null || PATH.isEmpty()) this.PATH = "cards.csv";
+        else this.PATH = PATH;
     }
 
     // == methods ==
 
     @Override
     public ArrayList<Card> generatePack(int amount) {
+        // protection
+        if (amount <= 0) {
+            log.error("amount isn't valid, amount = {}", amount);
+            return null;
+        }
+
         List<Card> allCards = readCards();
         // shuffle allCards
         Collections.shuffle(allCards);
