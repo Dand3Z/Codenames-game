@@ -6,14 +6,14 @@ import java.util.List;
 /**
  * The collection of cards
  */
-public class Waist {
+public class Pack {
 
     // == fields ==
     private final List<Card> cards;
     private int amount = 25; // 5 x 5
 
     // == constructors ==
-    public Waist() {
+    public Pack() {
         // IDownloadCards ...
         // IDownloadCards get all cards and
         // return (amount) cards
