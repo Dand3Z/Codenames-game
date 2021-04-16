@@ -13,21 +13,21 @@ import java.util.Scanner;
 /**
  * Get cards from file
  */
-public class FileCards implements IDownloadCards{
+public class FileCardsReader implements IDownloadCards{
 
     // == fields ==
     // logger
-    private static Logger log = LoggerFactory.getLogger(FileCards.class);
+    private static Logger log = LoggerFactory.getLogger(FileCardsReader.class);
     // path to the cards file
     private final String PATH;
 
 
     // == constructors ==
-    public FileCards(){
+    public FileCardsReader(){
         this("cards.csv");
     }
 
-    public FileCards(String PATH) {
+    public FileCardsReader(String PATH) {
         // protection
         if (PATH == null || PATH.isEmpty()) this.PATH = "cards.csv";
         else this.PATH = PATH;
