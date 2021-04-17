@@ -2,25 +2,44 @@ package pl.dele;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.security.InvalidParameterException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PackTest {
 
     @Test
-    public void invalidAmountTest(){
-        // no-argument constructor
+    public void validAmountTest(){
+        // create generator
         IGenerateCards generator = new FileCardsReader();
+        Pack pack = new Pack(generator, 25);
+        assertEquals(25, pack.getCards().size());
 
-        // invalid amounts
-        List<Card> cards = generator.generatePack(24);
-        assertNull(cards);
+        pack = new Pack(generator, 36);
+        assertEquals(36, pack.getCards().size());
 
-        cards = generator.generatePack(-1);
-        assertNull(cards);
+    }
 
-        cards = generator.generatePack(123);
-        assertNull(cards);
+    @Test
+    public void invalidAmountTest(){
+        // create generator
+        IGenerateCards generator = new FileCardsReader();
+        Pack pack;
+
+        try{
+            pack = new Pack(generator, 24);
+            assertNull(pack);
+        } catch (InvalidParameterException e){}
+
+        try{
+            pack = new Pack(generator, -1);
+            assertNull(pack);
+        } catch (InvalidParameterException e) {}
+
+        try{
+            pack = new Pack(generator, 123);
+            assertNull(pack);
+        } catch (InvalidParameterException e) {}
     }
 }

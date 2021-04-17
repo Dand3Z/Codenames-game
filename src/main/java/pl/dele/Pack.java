@@ -25,7 +25,7 @@ public class Pack {
             log.error("generator is null!!!");
             throw new NullPointerException();
         }
-        if (amount <= 0 || hasIntegerRoot(amount)){
+        if (amount <= 0 || !hasIntegerRoot(amount)){
             log.error("invalid amount, amount = {}", amount);
             throw new InvalidParameterException();
         }
