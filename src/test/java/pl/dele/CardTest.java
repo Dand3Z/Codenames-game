@@ -2,6 +2,9 @@ package pl.dele;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTest {
@@ -39,5 +42,18 @@ public class CardTest {
         assertEquals(horse1.hashCode(), horse2.hashCode());
         assertEquals(dog1.hashCode(), dog2.hashCode());
         assertNotEquals(dog1.hashCode(), horse1.hashCode());
+    }
+
+    @Test
+    public void hashcodeTest(){
+        Card c1 = new Card("horSe");
+        Card c2 = new Card("HORse");
+
+        Set<Card> cards = new HashSet<>();
+        cards.add(c1);
+        cards.add(c2);
+
+        assertEquals(c1,c2);
+        assertEquals(1, cards.size());
     }
 }
