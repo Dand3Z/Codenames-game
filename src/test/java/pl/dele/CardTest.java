@@ -11,8 +11,9 @@ public class CardTest {
     /**
      * Object creation test
      */
+
     @Test
-    public void createACards(){
+    public void shouldMakeCard(){
         // given
         Card card1 = new Card("HorSe");
         String text = "cat";
@@ -27,7 +28,7 @@ public class CardTest {
      * Test equals() and hashcode() methods
      */
     @Test
-    public void compareCards(){
+    public void ShouldCompareCard(){
         // given
         Card horse1 = new Card("HorSe");
         Card horse2 = new Card("horse");
@@ -45,7 +46,7 @@ public class CardTest {
     }
 
     @Test
-    public void hashcodeTest(){
+    public void shouldHashcodeBeEqual(){
         Card c1 = new Card("horSe");
         Card c2 = new Card("HORse");
 
