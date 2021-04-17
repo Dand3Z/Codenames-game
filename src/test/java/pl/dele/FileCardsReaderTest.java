@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FileCardsReaderTest {
 
     @Test
-    public void generateListLengthTest(){
+    public void shouldGenerateListOfSufficientLength(){
         // no-argument constructor
         IGenerateCards generator = new FileCardsReader();
 
@@ -22,7 +22,7 @@ public class FileCardsReaderTest {
     }
 
     @Test
-    public void invalidAmountTest(){
+    public void shouldGenerateNullWhenInvalidAmount(){
         // no-argument constructor
         IGenerateCards generator = new FileCardsReader();
 
@@ -38,7 +38,7 @@ public class FileCardsReaderTest {
     }
 
     @Test
-    public void oneArgumentConstructorTest(){
+    public void shouldMakeGeneratorForTheSpecifiedPath(){
         // valid argument
         IGenerateCards generator = new FileCardsReader("src/test/java/pl/dele/cards.csv");
         List<Card> cards = generator.generatePack(25);
@@ -48,16 +48,6 @@ public class FileCardsReaderTest {
         generator = new FileCardsReader("");
         cards = generator.generatePack(25);
         assertEquals(25, cards.size());
-    }
-
-
-    @Test
-    public void resultTest(){
-        IGenerateCards generator = new FileCardsReader();
-        List<Card> cards = generator.generatePack(25);
-        for (Card card : cards){
-            System.out.println(card);
-        }
     }
 
 }
