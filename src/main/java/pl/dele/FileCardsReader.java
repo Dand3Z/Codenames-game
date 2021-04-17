@@ -79,6 +79,7 @@ public class FileCardsReader implements IGenerateCards {
             // if list doesn't contain this card, add it
             if (!allCards.contains(card)) allCards.add(card);
         }
+        scanner.close();
         return allCards;
     }
 }
