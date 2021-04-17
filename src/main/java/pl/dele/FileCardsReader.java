@@ -39,18 +39,27 @@ public class FileCardsReader implements IGenerateCards {
     public ArrayList<Card> generatePack(int amount) {
         // protection
         if (amount <= 0) {
-            log.error("amount isn't valid, amount = {}", amount);
+            log.error("amount is less / equal to 0, amount = {}", amount);
             return null;
         }
 
+        // load cards
         List<Card> allCards = readCards();
+
+        // protection
+        if (amount > allCards.size()){
+            log.error("amount is greater than the list size, amount = {}", amount);
+            return null;
+        }
+
         // shuffle allCards
         Collections.shuffle(allCards);
 
         /**
-         * return new list with elements from 0 to amount - 1
+         * return new list with elements from 0 inclusive
+         * to amount exclusive
          */
-        return new ArrayList<>(allCards.subList(0, amount - 1));
+        return new ArrayList<>(allCards.subList(0, amount));
     }
 
     /**
@@ -74,7 +83,8 @@ public class FileCardsReader implements IGenerateCards {
         while (scanner.hasNextLine()){
             // read next line
             String text = scanner.nextLine();
-            // create new Card
+            // create new Card, but check first text
+            if (text.isEmpty()) continue;
             Card card = new Card(text);
             // if list doesn't contain this card, add it
             if (!allCards.contains(card)) allCards.add(card);

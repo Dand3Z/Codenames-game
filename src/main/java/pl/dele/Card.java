@@ -31,4 +31,10 @@ public final class Card {
         return this.text.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Card{" +
+                "text='" + text + '\'' +
+                '}';
+    }
 }
