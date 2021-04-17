@@ -18,7 +18,7 @@ public class PackTest {
     }
 
     @Test
-    public void validAmountTest(){
+    public void shouldCreatePack(){
         Pack pack = new Pack(generator, 25);
         assertEquals(25, pack.getCards().size());
 
@@ -28,7 +28,7 @@ public class PackTest {
     }
 
     @Test
-    public void invalidAmountTest(){
+    public void shouldThrowInvalidParameterExceptionWhenYouTryMakeInvalidPack(){
 
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, 24));
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, -1));
