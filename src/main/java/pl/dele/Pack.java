@@ -3,7 +3,6 @@ package pl.dele;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The collection of cards
@@ -13,7 +12,7 @@ public class Pack {
     // == fields ==
     private final List<Card> cards;
     private final PackDetails details;
-    private Map<Card, CardsRole> cardsRoles;
+    private RoleMap cardsRoles;
 
     // == constructors ==
     public Pack(IGenerateCards generator, int amount, int startingTeamAmount,
@@ -29,6 +28,16 @@ public class Pack {
 
         cards = generator.generatePack(amount);
         details = new PackDetails(amount, startingTeamAmount, blackCards);
+        cardsRoles = new RoleMap(cards,details);
+    }
+
+    public Pack(List<Card> cards, PackDetails details, RoleMap cardsRoles) {
+        if (cards == null || details == null || cardsRoles == null)
+            throw new NullPointerException();
+
+        this.cards = cards;
+        this.details = details;
+        this.cardsRoles = cardsRoles;
     }
 
     public Pack(IGenerateCards generator, int amount){
@@ -50,6 +59,11 @@ public class Pack {
 
     public StartingTeam whichTeamStarts(){
         return details.isSTARTING_TEAM() ? StartingTeam.BLUE_TEAM : StartingTeam.RED_TEAM;
+    }
+
+    // red, blue, neutral, black
+    public CardRole getCardRole(Card card){
+        return cardsRoles.getCardRole(card);
     }
 
     /**

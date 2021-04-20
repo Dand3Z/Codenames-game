@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.security.InvalidParameterException;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PackTest {
 
@@ -41,4 +43,29 @@ public class PackTest {
         assertThrows(NullPointerException.class, () -> new Pack(null, 25));
     }
 
+    @Test
+    void shouldStartTeamWithGreaterAmountCardsToGuess(){
+        // initial
+        List<Card> cards = generator.generatePack(25);
+        PackDetails details = new PackDetails(25,9,1);
+        RoleMap cardsRoles = new RoleMap(cards, details);
+
+        Pack pack = new Pack(cards, details, cardsRoles);
+
+        // --- Test 1 ---
+        // check which team should start
+        StartingTeam startingTeam;
+        if (details.getRED_CARDS_AMOUNT() > details.getBLUE_CARDS_AMOUNT()){
+            startingTeam = StartingTeam.RED_TEAM;
+        } else startingTeam = StartingTeam.BLUE_TEAM;
+
+        assertEquals(pack.whichTeamStarts(), startingTeam);
+
+        // --- Test 2 ---
+        startingTeam = cardsRoles.amountOf(CardRole.BLUE_TEAM) >
+                cardsRoles.amountOf(CardRole.RED_TEAM) ? StartingTeam.BLUE_TEAM :
+                StartingTeam.RED_TEAM;
+
+        assertEquals(pack.whichTeamStarts(), startingTeam);
+    }
 }

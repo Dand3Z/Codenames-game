@@ -1,6 +1,6 @@
 package pl.dele;
 
-public enum CardsRole {
+public enum CardRole {
     RED_TEAM,
     BLUE_TEAM,
     NEUTRAL,
