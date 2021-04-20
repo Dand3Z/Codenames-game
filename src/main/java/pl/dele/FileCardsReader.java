@@ -40,7 +40,7 @@ public class FileCardsReader implements IGenerateCards {
         // protection
         if (amount <= 0) {
             log.error("amount is less / equal to 0, amount = {}", amount);
-            return null;
+            throw new IllegalArgumentException();
         }
 
         // load cards
@@ -49,7 +49,7 @@ public class FileCardsReader implements IGenerateCards {
         // protection
         if (amount > allCards.size()){
             log.error("amount is greater than the list size, amount = {}", amount);
-            return null;
+            throw new IllegalArgumentException();
         }
 
         // shuffle allCards
@@ -77,7 +77,7 @@ public class FileCardsReader implements IGenerateCards {
         }
         catch (FileNotFoundException e) {
             log.error(e.getMessage());
-            return null;
+            throw new NullPointerException();
         }
 
         while (scanner.hasNextLine()){
