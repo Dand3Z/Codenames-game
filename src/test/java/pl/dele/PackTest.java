@@ -12,13 +12,13 @@ public class PackTest {
     private IGenerateCards generator;
 
     @BeforeEach
-    public void init(){
+    void init(){
         // create generator
         generator = new FileCardsReader();
     }
 
     @Test
-    public void shouldCreatePack(){
+    void shouldCreatePack(){
         Pack pack = new Pack(generator, 25);
         assertEquals(25, pack.getCards().size());
 
@@ -28,9 +28,17 @@ public class PackTest {
     }
 
     @Test
-    public void shouldThrowInvalidParameterExceptionWhenYouTryMakeInvalidPack(){
+    void shouldThrowInvalidParameterExceptionWhenYouTryMakeInvalidPack(){
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, 24));
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, -1));
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, 123));
+        assertThrows(InvalidParameterException.class, () -> new Pack(generator, 25,-1,1));
+        assertThrows(InvalidParameterException.class, () -> new Pack(generator, 25,9,-1));
     }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenGeneratorIsNull(){
+        assertThrows(NullPointerException.class, () -> new Pack(null, 25));
+    }
+
 }
