@@ -1,8 +1,5 @@
 package pl.dele;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,28 +10,28 @@ import java.util.List;
 public class Pack {
 
     // == fields ==
-    private static Logger log = LoggerFactory.getLogger(Pack.class);
-
     private final List<Card> cards;
-    private int amount = 25; // 5 x 5
-
+    private final int amount; // default 5 x 5
+    private final PackStats stats;
     // == constructors ==
-    public Pack(IGenerateCards generator, int amount) {
+    public Pack(IGenerateCards generator, int amount, int startingTeamAmount,
+                int blackCards) {
         // protection
         if (generator == null) {
-            log.error("generator is null!!!");
             throw new NullPointerException();
         }
-        if (amount <= 0 || !hasIntegerRoot(amount)){
-            log.error("invalid amount, amount = {}", amount);
+        if (amount <= 0 || startingTeamAmount <=0 || blackCards < 0
+                || !hasIntegerRoot(amount)){
             throw new InvalidParameterException();
         }
 
+        this.amount = amount;
         cards = generator.generatePack(amount);
+        stats = new PackStats(amount, startingTeamAmount, blackCards);
     }
 
     public Pack(IGenerateCards generator){
-        this(generator, 25);
+        this(generator, 25, 9, 1);
     }
 
     // == methods ==
