@@ -49,4 +49,13 @@ public class FileCardsReaderTest {
         assertEquals(25, cards.size());
     }
 
+    @Test
+    public void shouldThrowNullPointerExceptionWhenPathIsWrong(){
+        // wrong path
+        IGenerateCards generator = new FileCardsReader("src/test/cards.csv");
+
+        assertThrows(NullPointerException.class,
+                () -> generator.generatePack(25));
+    }
+
 }
