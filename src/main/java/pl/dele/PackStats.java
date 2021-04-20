@@ -2,17 +2,19 @@ package pl.dele;
 
 import java.util.Random;
 
-public class PackStats {
+class PackStats {
+    private final int AMOUNT;
     private final boolean STARTING_TEAM;
     private final int RED_CARDS_AMOUNT;
     private final int BLUE_CARDS_AMOUNT;
     private final int NEUTRAL_CARDS_AMOUNT;
     private final int BLACK_CARDS_AMOUNT;
 
-    public PackStats(int cardsAmount, int startingTeamAmount, int blackAmount) {
+    PackStats(int cardsAmount, int startingTeamAmount, int blackAmount) {
         if (cardsAmount <= 0 || startingTeamAmount <= 0 || blackAmount < 0){
             throw new IllegalArgumentException();
         }
+
         Random random = new Random();
         /**
          * Which team starts
@@ -20,6 +22,7 @@ public class PackStats {
          *  true  - BlueTeam
          */
         STARTING_TEAM = random.nextBoolean();
+        AMOUNT = cardsAmount;
         RED_CARDS_AMOUNT = STARTING_TEAM ? startingTeamAmount - 1 : startingTeamAmount;
         BLUE_CARDS_AMOUNT = STARTING_TEAM ? startingTeamAmount : startingTeamAmount - 1;
         BLACK_CARDS_AMOUNT = blackAmount;
@@ -49,5 +52,9 @@ public class PackStats {
 
     int getBLACK_CARDS_AMOUNT() {
         return BLACK_CARDS_AMOUNT;
+    }
+
+    int getAMOUNT() {
+        return AMOUNT;
     }
 }

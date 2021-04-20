@@ -29,7 +29,6 @@ public class PackTest {
 
     @Test
     public void shouldThrowInvalidParameterExceptionWhenYouTryMakeInvalidPack(){
-
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, 24));
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, -1));
         assertThrows(InvalidParameterException.class, () -> new Pack(generator, 123));

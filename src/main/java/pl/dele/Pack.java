@@ -11,7 +11,6 @@ public class Pack {
 
     // == fields ==
     private final List<Card> cards;
-    private final int amount; // default 5 x 5
     private final PackStats stats;
     // == constructors ==
     public Pack(IGenerateCards generator, int amount, int startingTeamAmount,
@@ -25,13 +24,17 @@ public class Pack {
             throw new InvalidParameterException();
         }
 
-        this.amount = amount;
         cards = generator.generatePack(amount);
         stats = new PackStats(amount, startingTeamAmount, blackCards);
     }
 
-    public Pack(IGenerateCards generator){
-        this(generator, 25, 9, 1);
+    public Pack(IGenerateCards generator, int amount){
+        this(generator, amount, 9, 1);
+    }
+
+    // Default Pack
+    public Pack(){
+        this(new FileCardsReader(), 25, 9, 1);
     }
 
     // == methods ==
@@ -40,6 +43,10 @@ public class Pack {
      */
     public List<Card> getCards() {
         return new ArrayList<>(cards);
+    }
+
+    PackStats getStats() {
+        return stats;
     }
 
     /**
