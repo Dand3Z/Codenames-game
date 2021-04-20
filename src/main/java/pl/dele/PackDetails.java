@@ -2,7 +2,7 @@ package pl.dele;
 
 import java.util.Random;
 
-class PackStats {
+class PackDetails {
     private final int AMOUNT;
     private final boolean STARTING_TEAM;
     private final int RED_CARDS_AMOUNT;
@@ -10,7 +10,7 @@ class PackStats {
     private final int NEUTRAL_CARDS_AMOUNT;
     private final int BLACK_CARDS_AMOUNT;
 
-    PackStats(int cardsAmount, int startingTeamAmount, int blackAmount) {
+    PackDetails(int cardsAmount, int startingTeamAmount, int blackAmount) {
         if (cardsAmount <= 0 || startingTeamAmount <= 0 || blackAmount < 0){
             throw new IllegalArgumentException();
         }
@@ -30,7 +30,7 @@ class PackStats {
                                 - BLACK_CARDS_AMOUNT;
     }
 
-    public PackStats(){
+    public PackDetails(){
         this(25,9,1);
     }
 

@@ -3,6 +3,7 @@ package pl.dele;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The collection of cards
@@ -11,7 +12,9 @@ public class Pack {
 
     // == fields ==
     private final List<Card> cards;
-    private final PackStats stats;
+    private final PackDetails details;
+    private Map<Card, CardsRole> cardsRoles;
+
     // == constructors ==
     public Pack(IGenerateCards generator, int amount, int startingTeamAmount,
                 int blackCards) {
@@ -25,7 +28,7 @@ public class Pack {
         }
 
         cards = generator.generatePack(amount);
-        stats = new PackStats(amount, startingTeamAmount, blackCards);
+        details = new PackDetails(amount, startingTeamAmount, blackCards);
     }
 
     public Pack(IGenerateCards generator, int amount){
@@ -45,8 +48,8 @@ public class Pack {
         return new ArrayList<>(cards);
     }
 
-    PackStats getStats() {
-        return stats;
+    public StartingTeam whichTeamStarts(){
+        return details.isSTARTING_TEAM() ? StartingTeam.BLUE_TEAM : StartingTeam.RED_TEAM;
     }
 
     /**

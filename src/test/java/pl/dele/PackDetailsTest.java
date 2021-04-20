@@ -4,12 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PackStatsTest {
+public class PackDetailsTest {
 
     @Test
     void ShouldCreatePackWith25CardsAmount9StartingTeamCardsAnd1BlackCard(){
-        Pack pack = new Pack();
-        PackStats stats = pack.getStats();
+        PackDetails stats = new PackDetails();
         assertEquals(25,stats.getAMOUNT());
         assertEquals(1,stats.getBLACK_CARDS_AMOUNT());
 
@@ -27,7 +26,7 @@ public class PackStatsTest {
 
     @Test
     void ShouldCreatePackStatsWith36CardsAmount11StartingTeamCards2BlackCards(){
-        PackStats stats = new PackStats(36,11,2);
+        PackDetails stats = new PackDetails(36,11,2);
         assertEquals(36, stats.getAMOUNT());
         assertEquals(2,stats.getBLACK_CARDS_AMOUNT());
 
@@ -46,24 +45,24 @@ public class PackStatsTest {
     @Test
     void ShouldThrowIllegalArgumentExceptionWhenCardsAmountIsLessEqual0(){
         assertThrows(IllegalArgumentException.class,
-                () -> new PackStats(-4,9,1));
+                () -> new PackDetails(-4,9,1));
         assertThrows(IllegalArgumentException.class,
-                () -> new PackStats(0,9,1));
+                () -> new PackDetails(0,9,1));
     }
 
     @Test
     void ShouldThrowIllegalArgumentExceptionWhenStartingTeamAmountIsLessEqual0(){
         assertThrows(IllegalArgumentException.class,
-                () -> new PackStats(25,-2,1));
+                () -> new PackDetails(25,-2,1));
         assertThrows(IllegalArgumentException.class,
-                () -> new PackStats(25,0,1));
+                () -> new PackDetails(25,0,1));
     }
 
     @Test
     void ShouldThrowIllegalArgumentExceptionWhenBlackAmountIsLessThen0(){
         assertThrows(IllegalArgumentException.class,
-                () -> new PackStats(25,9,-4));
+                () -> new PackDetails(25,9,-4));
 
-        assertDoesNotThrow(() -> new PackStats(25,9,0));
+        assertDoesNotThrow(() -> new PackDetails(25,9,0));
     }
 }
