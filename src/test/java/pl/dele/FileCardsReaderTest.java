@@ -22,19 +22,18 @@ public class FileCardsReaderTest {
     }
 
     @Test
-    public void shouldGenerateNullWhenInvalidAmount(){
+    public void shouldThrowIllegalArgumentExceptionWhenInvalidAmount(){
         // no-argument constructor
         IGenerateCards generator = new FileCardsReader();
+        assertThrows(IllegalArgumentException.class,
+                () -> generator.generatePack(0));
 
-        List<Card> cards = generator.generatePack(0);
-        assertNull(cards);
-
-        cards = generator.generatePack(-10);
-        assertNull(cards);
+        assertThrows(IllegalArgumentException.class,
+                () -> generator.generatePack(-10));
 
         // amount is too big
-        cards = generator.generatePack(100000000);
-        assertNull(cards);
+        assertThrows(IllegalArgumentException.class,
+                () -> generator.generatePack(100000000));
     }
 
     @Test
