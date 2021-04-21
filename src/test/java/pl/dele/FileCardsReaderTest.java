@@ -16,9 +16,13 @@ public class FileCardsReaderTest {
 
         // valid amount
         List<Card> cards = generator.generatePack(25);
+        List<Card> cards2 = generator.generatePack(36);
+        List<Card> cards3 = generator.generatePack(49);
 
         // test length
         assertTrue(25 == cards.size());
+        assertTrue(36 == cards2.size());
+        assertTrue(49 == cards3.size());
     }
 
     @Test
@@ -57,5 +61,4 @@ public class FileCardsReaderTest {
         assertThrows(NullPointerException.class,
                 () -> generator.generatePack(25));
     }
-
 }
