@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * The collection of cards
+ * API: get list of cards, check role of specific card, which team starts
  */
 public class Pack {
 
