@@ -58,8 +58,8 @@ public class Pack {
         return new ArrayList<>(cards);
     }
 
-    public StartingTeam whichTeamStarts(){
-        return details.isSTARTING_TEAM() ? StartingTeam.BLUE_TEAM : StartingTeam.RED_TEAM;
+    public TeamColor whichTeamStarts(){
+        return details.isSTARTING_TEAM() ? TeamColor.BLUE_TEAM : TeamColor.RED_TEAM;
     }
 
     // red, blue, neutral, black
