@@ -1,8 +1,12 @@
-package pl.dele;
+package pl.dele.teams;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.dele.teams.Operative;
+import pl.dele.teams.Spymaster;
+import pl.dele.teams.Team;
+import pl.dele.teams.TeamColor;
 
 import static org.junit.jupiter.api.Assertions.*;
 

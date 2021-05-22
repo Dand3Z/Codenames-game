@@ -1,4 +1,4 @@
-package pl.dele;
+package pl.dele.cards;
 
 public enum CardRole {
     RED_TEAM,

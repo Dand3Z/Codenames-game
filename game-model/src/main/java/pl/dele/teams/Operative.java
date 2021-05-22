@@ -1,4 +1,4 @@
-package pl.dele;
+package pl.dele.teams;
 
 // agent
 public class Operative extends Player{

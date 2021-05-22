@@ -1,4 +1,4 @@
-package pl.dele;
+package pl.dele.teams;
 
 public class Spymaster extends Player{
 

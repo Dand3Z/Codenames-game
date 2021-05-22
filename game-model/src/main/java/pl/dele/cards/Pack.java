@@ -1,4 +1,6 @@
-package pl.dele;
+package pl.dele.cards;
+
+import pl.dele.teams.TeamColor;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;

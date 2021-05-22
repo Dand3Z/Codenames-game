@@ -1,4 +1,4 @@
-package pl.dele;
+package pl.dele.teams;
 
 import java.util.ArrayList;
 import java.util.List;

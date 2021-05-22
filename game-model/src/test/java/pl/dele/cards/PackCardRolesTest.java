@@ -1,8 +1,10 @@
-package pl.dele;
+package pl.dele.cards;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.dele.cards.Card;
+import pl.dele.cards.Pack;
 
 import java.security.InvalidParameterException;
 import java.util.List;

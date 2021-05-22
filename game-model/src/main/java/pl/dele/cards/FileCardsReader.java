@@ -1,4 +1,4 @@
-package pl.dele;
+package pl.dele.cards;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,8 @@
-package pl.dele;
+package pl.dele.cards;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pl.dele.cards.Card;
 
 import java.util.HashSet;
 import java.util.Set;

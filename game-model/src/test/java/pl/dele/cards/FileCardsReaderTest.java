@@ -1,4 +1,4 @@
-package pl.dele;
+package pl.dele.cards;
 
 
 import org.junit.jupiter.api.Assertions;
