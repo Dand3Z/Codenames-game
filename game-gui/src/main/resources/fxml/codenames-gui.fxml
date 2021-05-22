@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -9,8 +10,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.net.URL?>
-
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.dele.gui.GameController">
    <top>
@@ -98,6 +97,39 @@
                      </font>
                   </Label>
                   <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="163.0" text="Join as Spymaster" />
+               </children>
+            </VBox>
+            <Label alignment="TOP_CENTER" text="Guesses left:">
+               <font>
+                  <Font name="Arial" size="21.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER" prefHeight="77.0" prefWidth="175.0">
+               <children>
+                  <Label text="Red Team">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_RIGHT" text="9">
+                     <font>
+                        <Font size="38.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="77.0" prefWidth="175.0">
+               <children>
+                  <Label text="Blue Team">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="BOTTOM_RIGHT" text="8">
+                     <font>
+                        <Font size="38.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
          </children>
