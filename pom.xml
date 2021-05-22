@@ -12,6 +12,8 @@
     <modules>
         <module>game-gui</module>
         <module>game-model</module>
+        <module>game-server</module>
+        <module>game-client</module>
     </modules>
 
     <properties>
