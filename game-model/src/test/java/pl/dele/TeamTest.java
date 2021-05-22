@@ -1,5 +1,6 @@
 package pl.dele;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,12 +43,12 @@ public class TeamTest {
 
     @Test
     void shouldThrowIllegalAccessErrorWhenSpymasterIsAssignedAndITryToAssignAgain(){
-        assertThrows(IllegalAccessError.class, () -> redTeam.addSpymaster(new Spymaster()));
+        Assertions.assertThrows(IllegalAccessError.class, () -> redTeam.addSpymaster(new Spymaster()));
     }
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenYouTryToAddOperativeThatAlreadyIsInList(){
-        assertThrows(IllegalArgumentException.class, () -> redTeam.addOperative(redOper2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> redTeam.addOperative(redOper2));
     }
 
     @Test
@@ -55,8 +56,8 @@ public class TeamTest {
         assertEquals(2, redTeam.getOperatives().size());
         assertEquals(2, blueTeam.getOperatives().size());
 
-        assertNotNull(redTeam.getSpymaster());
-        assertNotNull(blueTeam.getSpymaster());
+        Assertions.assertNotNull(redTeam.getSpymaster());
+        Assertions.assertNotNull(blueTeam.getSpymaster());
     }
 
     @Test
@@ -69,9 +70,9 @@ public class TeamTest {
 
     @Test
     void spymasterShouldBeNullWhenIsRemoved(){
-        assertNotNull(redTeam.getSpymaster());
+        Assertions.assertNotNull(redTeam.getSpymaster());
         redTeam.removeSpymaster();
-        assertNull(redTeam.getSpymaster());
+        Assertions.assertNull(redTeam.getSpymaster());
     }
 
 }

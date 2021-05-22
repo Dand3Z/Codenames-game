@@ -1,5 +1,6 @@
 package pl.dele;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -55,6 +56,6 @@ public class CardTest {
         cards.add(c2);
 
         assertEquals(c1,c2);
-        assertEquals(1, cards.size());
+        Assertions.assertEquals(1, cards.size());
     }
 }

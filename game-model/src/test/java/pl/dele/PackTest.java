@@ -1,5 +1,6 @@
 package pl.dele;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +8,6 @@ import java.security.InvalidParameterException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PackTest {
 
@@ -30,16 +30,16 @@ public class PackTest {
 
     @Test
     void shouldThrowInvalidParameterExceptionWhenYouTryMakeInvalidPack(){
-        assertThrows(InvalidParameterException.class, () -> new Pack(generator, 24));
-        assertThrows(InvalidParameterException.class, () -> new Pack(generator, -1));
-        assertThrows(InvalidParameterException.class, () -> new Pack(generator, 123));
-        assertThrows(InvalidParameterException.class, () -> new Pack(generator, 25,-1,1));
-        assertThrows(InvalidParameterException.class, () -> new Pack(generator, 25,9,-1));
+        Assertions.assertThrows(InvalidParameterException.class, () -> new Pack(generator, 24));
+        Assertions.assertThrows(InvalidParameterException.class, () -> new Pack(generator, -1));
+        Assertions.assertThrows(InvalidParameterException.class, () -> new Pack(generator, 123));
+        Assertions.assertThrows(InvalidParameterException.class, () -> new Pack(generator, 25,-1,1));
+        Assertions.assertThrows(InvalidParameterException.class, () -> new Pack(generator, 25,9,-1));
     }
 
     @Test
     void shouldThrowNullPointerExceptionWhenGeneratorIsNull(){
-        assertThrows(NullPointerException.class, () -> new Pack(null, 25));
+        Assertions.assertThrows(NullPointerException.class, () -> new Pack(null, 25));
     }
 
     @Test

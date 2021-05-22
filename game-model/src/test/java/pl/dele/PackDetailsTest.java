@@ -1,8 +1,9 @@
 package pl.dele;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PackDetailsTest {
 
@@ -44,25 +45,25 @@ public class PackDetailsTest {
 
     @Test
     void ShouldThrowIllegalArgumentExceptionWhenCardsAmountIsLessEqual0(){
-        assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new PackDetails(-4,9,1));
-        assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new PackDetails(0,9,1));
     }
 
     @Test
     void ShouldThrowIllegalArgumentExceptionWhenStartingTeamAmountIsLessEqual0(){
-        assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new PackDetails(25,-2,1));
-        assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new PackDetails(25,0,1));
     }
 
     @Test
     void ShouldThrowIllegalArgumentExceptionWhenBlackAmountIsLessThen0(){
-        assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new PackDetails(25,9,-4));
 
-        assertDoesNotThrow(() -> new PackDetails(25,9,0));
+        Assertions.assertDoesNotThrow(() -> new PackDetails(25,9,0));
     }
 }
