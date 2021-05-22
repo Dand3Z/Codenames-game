@@ -2,7 +2,6 @@ package pl.dele.cards;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.dele.cards.Card;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,8 +21,8 @@ public class CardTest {
         // when
         Card card2 = new Card(text);
         // then
-        assertEquals("HORSE", card1.getText());
-        assertEquals(text.toUpperCase(), card2.getText());
+        assertEquals("HORSE", card1.getPhrase());
+        assertEquals(text.toUpperCase(), card2.getPhrase());
     }
 
     /**

@@ -3,13 +3,12 @@ package pl.dele.cards;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.dele.cards.*;
 import pl.dele.teams.TeamColor;
 
 import java.security.InvalidParameterException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PackTest {
 
@@ -68,5 +67,19 @@ public class PackTest {
                 TeamColor.RED_TEAM;
 
         assertEquals(pack.whichTeamStarts(), startingTeam);
+    }
+
+    @Test
+    void shouldContainsAppointedCard(){
+        Pack pack = new Pack(generator, 25);
+        Card card = pack.getCards().get(3);
+        assertTrue(pack.containsCard(card.getPhrase()));
+    }
+
+    @Test
+    void shouldNotContainsAppointedCard(){
+        Pack pack = new Pack(generator, 25);
+        Card card = new Card("aaaaaa");
+        assertFalse(pack.containsCard(card.getPhrase()));
     }
 }

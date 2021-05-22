@@ -140,7 +140,7 @@
          <children>
             <Button fx:id="startGameButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="95.0" text="Start Game" />
             <Button fx:id="resetButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="95.0" text="Reset" />
-            <Button fx:id="nextButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="95.0" text="Next" />
+            <Button fx:id="passButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="95.0" text="Pass" />
          </children>
       </HBox>
    </bottom>

@@ -4,16 +4,16 @@ public final class Card {
     // == fields ==
 
     // text on the card e.g. car, dog etc.
-    private final String text;
+    private final String phrase;
 
     // == constructors ==
-    public Card(String text) {
-        this.text = text.toUpperCase();
+    public Card(String phrase) {
+        this.phrase = phrase.toUpperCase();
     }
 
     // == methods ==
-    public String getText() {
-        return text;
+    public String getPhrase() {
+        return phrase;
     }
 
     @Override
@@ -21,18 +21,18 @@ public final class Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return this.text.equals(card.text);
+        return this.phrase.equals(card.phrase);
     }
 
     @Override
     public int hashCode() {
-        return this.text.hashCode();
+        return this.phrase.hashCode();
     }
 
     @Override
     public String toString() {
         return "Card{" +
-                "text='" + text + '\'' +
+                "text='" + phrase + '\'' +
                 '}';
     }
 }

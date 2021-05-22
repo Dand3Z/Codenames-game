@@ -37,7 +37,7 @@ public class Team {
     }
 
     // == getters ==
-    Spymaster getSpymaster() { return spymaster; }
-    List<Operative> getOperatives() { return operatives; }
-    TeamColor getTeamColor() { return teamColor; }
+    public Spymaster getSpymaster() { return spymaster; }
+    public List<Operative> getOperatives() { return operatives; }
+    public TeamColor getTeamColor() { return teamColor; }
 }

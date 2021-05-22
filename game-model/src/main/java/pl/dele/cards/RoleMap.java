@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -42,12 +43,15 @@ class RoleMap {
         }
     }
 
+    RoleMap(RoleMap sourceRoleMap){
+        cardsRoles = new HashMap<>(sourceRoleMap.cardsRoles);
+    }
+
     public CardRole getCardRole(Card card){
         if (!cardsRoles.containsKey(card)) throw new InvalidParameterException();
         return cardsRoles.get(card);
     }
 
-    // for testing
     int amountOf(CardRole cardRole){
         int amount = 0;
         for (Card c : cardsRoles.keySet()){
@@ -56,5 +60,20 @@ class RoleMap {
             }
         }
         return amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RoleMap roleMap = (RoleMap) o;
+
+        return Objects.equals(cardsRoles, roleMap.cardsRoles);
+    }
+
+    @Override
+    public int hashCode() {
+        return cardsRoles != null ? cardsRoles.hashCode() : 0;
     }
 }

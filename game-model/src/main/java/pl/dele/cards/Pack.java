@@ -52,9 +52,6 @@ public class Pack {
     }
 
     // == methods ==
-    /**
-     ** return copy of cards list
-     */
     public List<Card> getCards() {
         return new ArrayList<>(cards);
     }
@@ -66,6 +63,18 @@ public class Pack {
     // red, blue, neutral, black
     public CardRole getCardRole(Card card){
         return cardsRoles.getCardRole(card);
+    }
+
+    public int amountOf(CardRole cardRole){
+        return cardsRoles.amountOf(cardRole);
+    }
+
+//    public RoleMap getCardsRoles(){
+//        return new RoleMap(cardsRoles);
+//    }
+
+    public boolean containsCard(String phrase){
+        return cards.contains(new Card(phrase));
     }
 
     /**
