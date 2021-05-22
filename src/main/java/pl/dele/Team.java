@@ -1,6 +1,5 @@
 package pl.dele;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +14,30 @@ public class Team {
         this.teamColor = teamColor;
     }
 
-    public void addSpymaster(Spymaster newSpymaster){
-        if (spymaster != null) throw new IllegalAccessError();
+    void addSpymaster(Spymaster newSpymaster){
+        if (newSpymaster == null) throw new IllegalArgumentException("Argument is null!");
+        if (spymaster != null) throw new IllegalAccessError("Spymaster is assigned!");
         this.spymaster = newSpymaster;
     }
 
-    public void add(Operative newOperative){
+    void addOperative(Operative newOperative){
         if (newOperative == null || operatives.contains(newOperative))
-            throw new InvalidParameterException();
+            throw new IllegalArgumentException("Invalid argument!");
         this.operatives.add(newOperative);
     }
+
+    void removeSpymaster(){
+        if (spymaster == null) throw new IllegalArgumentException("Spymaster isn't assigned");
+        spymaster = null;
+    }
+
+    void removeOperative(Operative operative){
+        if (operative == null) throw new IllegalArgumentException("Operative is null!");
+        if (operatives.contains(operative)) operatives.remove(operative);
+    }
+
+    // == getters ==
+    Spymaster getSpymaster() { return spymaster; }
+    List<Operative> getOperatives() { return operatives; }
+    TeamColor getTeamColor() { return teamColor; }
 }

@@ -5,6 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Every Card has one role:
+ *  - BLUE_TEAM
+ *  - RED_TEAM
+ *  - BLACK_CARD
+ *  - NEUTRAL_CARD
+ *
+ *  This is where they are assigned
+ */
 class RoleMap {
 
     private Map<Card, CardRole> cardsRoles;

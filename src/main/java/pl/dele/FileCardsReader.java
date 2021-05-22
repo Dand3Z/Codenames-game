@@ -28,16 +28,13 @@ public class FileCardsReader implements IGenerateCards {
     }
 
     public FileCardsReader(String PATH) {
-        // protection
         if (PATH == null || PATH.isEmpty()) this.PATH = "cards.csv";
         else this.PATH = PATH;
     }
 
     // == methods ==
-
     @Override
     public ArrayList<Card> generatePack(int amount) {
-        // protection
         if (amount <= 0) {
             log.error("amount is less / equal to 0, amount = {}", amount);
             throw new IllegalArgumentException();
@@ -46,13 +43,11 @@ public class FileCardsReader implements IGenerateCards {
         // load cards
         List<Card> allCards = readCards();
 
-        // protection
         if (amount > allCards.size()){
             log.error("amount is greater than the list size, amount = {}", amount);
             throw new IllegalArgumentException();
         }
 
-        // shuffle allCards
         Collections.shuffle(allCards);
 
         /**
@@ -81,12 +76,9 @@ public class FileCardsReader implements IGenerateCards {
         }
 
         while (scanner.hasNextLine()){
-            // read next line
             String text = scanner.nextLine();
-            // create new Card, but check first text
             if (text.isEmpty()) continue;
             Card card = new Card(text);
-            // if list doesn't contain this card, add it
             if (!allCards.contains(card)) allCards.add(card);
         }
         scanner.close();

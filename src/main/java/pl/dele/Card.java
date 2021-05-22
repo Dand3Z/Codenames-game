@@ -7,13 +7,11 @@ public final class Card {
     private final String text;
 
     // == constructors ==
-
     public Card(String text) {
         this.text = text.toUpperCase();
     }
 
     // == methods ==
-
     public String getText() {
         return text;
     }

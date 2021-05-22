@@ -15,7 +15,6 @@ public class PackTest {
 
     @BeforeEach
     void init(){
-        // create generator
         generator = new FileCardsReader();
     }
 

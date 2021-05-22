@@ -18,7 +18,6 @@ public class Pack {
     // == constructors ==
     public Pack(IGenerateCards generator, int amount, int startingTeamAmount,
                 int blackCards) {
-        // protection
         if (generator == null) {
             throw new NullPointerException();
         }
