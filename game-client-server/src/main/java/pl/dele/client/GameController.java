@@ -40,6 +40,18 @@ public class GameController extends Thread{
     @FXML
     private Button resetButton;
 
+    @FXML
+    private Button joinRedOperative;
+
+    @FXML
+    private Button joinRedSpymaster;
+
+    @FXML
+    private Button joinBlueOperative;
+
+    @FXML
+    private Button joinBlueSpymaster;
+
     public GameController() {
         cards = new ArrayList<>();
         cardRoleMap = new LinkedHashMap<>();
@@ -51,13 +63,7 @@ public class GameController extends Thread{
         connectSocket();
         refreshGui();
 
-        startGameButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            writer.println("init");
-        });
-        // impl for testing
-        resetButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            refreshGui();
-        });
+        implButtons();
     }
 
     private void refreshGui(){
@@ -189,6 +195,43 @@ public class GameController extends Thread{
             default:
                 return Color.WHITESMOKE;
         }
+    }
+
+    private void implButtons() {
+        startGameButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            writer.println("init");
+        });
+        // impl for testing -> change it in final version
+        resetButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            refreshGui();
+        });
+        joinRedOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            log.debug("joinRedOperative");
+            disableJoinButtons();
+            refreshGui();
+        });
+        joinRedSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            log.debug("joinRedSpymaster");
+            disableJoinButtons();
+            refreshGui();
+        });
+        joinBlueOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            log.debug("joinBlueOperative");
+            disableJoinButtons();
+            refreshGui();
+        });
+        joinBlueSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            log.debug("joinBlueSpymaster");
+            disableJoinButtons();
+            refreshGui();
+        });
+    }
+
+    private void disableJoinButtons(){
+        joinBlueOperative.setDisable(true);
+        joinBlueSpymaster.setDisable(true);
+        joinRedSpymaster.setDisable(true);
+        joinRedOperative.setDisable(true);
     }
 
 }
