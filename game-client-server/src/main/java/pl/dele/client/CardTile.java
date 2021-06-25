@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 public class CardTile extends StackPane {
 
     private final Rectangle rectangle;
+    private String phrase;
 
     public CardTile() {
         rectangle = new Rectangle(100,110, Color.WHITE);
@@ -21,6 +22,11 @@ public class CardTile extends StackPane {
     }
 
     void addPhrase(String phrase){
+        this.phrase = phrase;
         getChildren().add(new Label(phrase));
+    }
+
+    public String getPhrase(){
+        return phrase;
     }
 }

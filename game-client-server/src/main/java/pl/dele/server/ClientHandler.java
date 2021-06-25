@@ -68,13 +68,21 @@ public class ClientHandler extends Thread {
     }
 
     private void initialCards(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(Commands.INITIAL).append(System.lineSeparator());
+        StringBuilder initialBuilder = new StringBuilder();
+        // fill the cards board
+        initialBuilder.append(Commands.INITIAL).append(System.lineSeparator());
         for(Card card: gameEngine.getPack().getCards()){
-            sb.append(card.getPhrase()).append(System.lineSeparator());
+            initialBuilder.append(card.getPhrase()).append(System.lineSeparator());
         }
+        sendCommand(initialBuilder);
 
-        sendCommand(sb);
+        // color the cards on board
+        StringBuilder colorBuilder = new StringBuilder();
+        colorBuilder.append(Commands.PAINT_CARDS).append(System.lineSeparator());
+        for(Card card: gameEngine.getPack().getCards()){
+            colorBuilder.append(gameEngine.getPack().getCardRole(card)).append(System.lineSeparator());
+        }
+        sendCommand(colorBuilder);
     }
 
     private void sendCommand(StringBuilder sb){

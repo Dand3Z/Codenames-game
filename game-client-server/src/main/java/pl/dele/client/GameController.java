@@ -5,18 +5,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.dele.Commands;
 import pl.dele.cards.Card;
+import pl.dele.cards.CardRole;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GameController extends Thread{
 
@@ -24,6 +25,8 @@ public class GameController extends Thread{
 
     private Socket socket;
     private final List<Card> cards;
+    private Map<Card, CardRole> cardRoleMap;
+    private Map<Card, Boolean> isCardDiscovered;
     private BufferedReader reader;
     private PrintWriter writer;
     private boolean selectedTeam;
@@ -39,6 +42,8 @@ public class GameController extends Thread{
 
     public GameController() {
         cards = new ArrayList<>();
+        cardRoleMap = new LinkedHashMap<>();
+        isCardDiscovered = new HashMap<>();
     }
 
     @FXML
@@ -61,8 +66,15 @@ public class GameController extends Thread{
                 CardTile cardTile = new CardTile();
                 gripMap.add(cardTile,x,y);
 
+                String phrase = cards.get(x + 5 * y).getPhrase();
                 if (cards != null && cards.size() > 0){
-                    cardTile.addPhrase(cards.get(x + 5 * y).getPhrase());
+                    cardTile.addPhrase(phrase);
+                }
+
+                // paint card if it is discovered or you are a spymaster (temp impl)
+                if (cards != null && cards.size() > 0) {
+                    CardRole cardRole = cardRoleMap.get(new Card(phrase));
+                    cardTile.setBackground(getCardColor(cardRole));
                 }
             }
         }
@@ -81,12 +93,6 @@ public class GameController extends Thread{
 
     @Override
     public void run() {
-//        while (true) {
-//            System.out.println("dziala");
-//            if (2==3) break;
-//        } // testing thread
-
-
         try {
             while (true){
                 String command;
@@ -106,6 +112,10 @@ public class GameController extends Thread{
                         log.debug(Commands.INITIAL);
                         initialHandling(sb.toString());
                         break;
+                    case Commands.PAINT_CARDS:
+                        log.debug(Commands.PAINT_CARDS);
+                        paintCardsHandling(sb.toString());
+                        break;
                     case Commands.JOIN_TEAM:
                         log.debug(Commands.JOIN_TEAM);
                         joinHandling(sb.toString());
@@ -116,9 +126,6 @@ public class GameController extends Thread{
                         break;
                 }
                 command = null;
-                // send init - temp
-                //writer.println("init");
-                //refreshGui();
             }
         }
         catch (IOException e) { e.getMessage(); }
@@ -135,7 +142,13 @@ public class GameController extends Thread{
         Platform.runLater(() -> {
             refreshGui();
         });
-        //refreshGui();  // testing
+    }
+
+    private void paintCardsHandling(String instruction){
+        String[] colors = instruction.split(System.lineSeparator());
+        for (int i = 0; i < cards.size(); ++i){
+            cardRoleMap.put(cards.get(i), stringToCardRole(colors[i]));
+        }
     }
 
     private void interpretationHandling(String instruction) {
@@ -146,6 +159,30 @@ public class GameController extends Thread{
 
     }
 
+    private CardRole stringToCardRole(String s){
+        switch (s){
+            case "RED_TEAM":
+                return CardRole.RED_TEAM;
+            case "BLUE_TEAM":
+                return CardRole.BLUE_TEAM;
+            case "NEUTRAL":
+                return CardRole.NEUTRAL;
+            default:
+                return CardRole.BLACK_CARD;
+        }
+    }
 
+    private Color getCardColor(CardRole cardRole){
+        switch (cardRole){
+            case RED_TEAM:
+                return Color.RED;
+            case BLUE_TEAM:
+                return Color.BLUE;
+            case BLACK_CARD:
+                return Color.BLACK;
+            default:
+                return Color.DIMGREY;
+        }
+    }
 
 }
