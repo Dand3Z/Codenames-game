@@ -67,7 +67,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private void initialCards(){
+    private synchronized void initialCards(){
         StringBuilder initialBuilder = new StringBuilder();
         // fill the cards board
         initialBuilder.append(Commands.INITIAL).append(System.lineSeparator());

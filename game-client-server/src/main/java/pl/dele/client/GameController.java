@@ -66,8 +66,9 @@ public class GameController extends Thread{
                 CardTile cardTile = new CardTile();
                 gripMap.add(cardTile,x,y);
 
-                String phrase = cards.get(x + 5 * y).getPhrase();
+                String phrase = "";
                 if (cards != null && cards.size() > 0){
+                    phrase = cards.get(x + 5 * y).getPhrase();
                     cardTile.addPhrase(phrase);
                 }
 
@@ -149,6 +150,11 @@ public class GameController extends Thread{
         for (int i = 0; i < cards.size(); ++i){
             cardRoleMap.put(cards.get(i), stringToCardRole(colors[i]));
         }
+
+        // temp
+        Platform.runLater(() -> {
+            refreshGui();
+        });
     }
 
     private void interpretationHandling(String instruction) {
@@ -175,13 +181,13 @@ public class GameController extends Thread{
     private Color getCardColor(CardRole cardRole){
         switch (cardRole){
             case RED_TEAM:
-                return Color.RED;
+                return Color.FIREBRICK;
             case BLUE_TEAM:
-                return Color.BLUE;
+                return Color.LIGHTBLUE;
             case BLACK_CARD:
-                return Color.BLACK;
+                return Color.GRAY;
             default:
-                return Color.DIMGREY;
+                return Color.WHITESMOKE;
         }
     }
 

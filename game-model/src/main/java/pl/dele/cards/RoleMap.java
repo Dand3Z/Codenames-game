@@ -1,10 +1,7 @@
 package pl.dele.cards;
 
 import java.security.InvalidParameterException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 /**
@@ -23,22 +20,25 @@ class RoleMap {
     RoleMap(List<Card> cards, PackDetails details) {
         cardsRoles = new HashMap<>();
 
+        List<Card> random = new ArrayList<>(cards);
+        Collections.shuffle(random);
+
         int cardNum = 0;
 
         for (int i = 0; i < details.getBLUE_CARDS_AMOUNT(); ++i) {
-            cardsRoles.put(cards.get(cardNum), CardRole.BLUE_TEAM);
+            cardsRoles.put(random.get(cardNum), CardRole.BLUE_TEAM);
             ++cardNum;
         }
         for (int i = 0; i < details.getRED_CARDS_AMOUNT(); ++i) {
-            cardsRoles.put(cards.get(cardNum), CardRole.RED_TEAM);
+            cardsRoles.put(random.get(cardNum), CardRole.RED_TEAM);
             ++cardNum;
         }
         for (int i = 0; i < details.getNEUTRAL_CARDS_AMOUNT(); ++i) {
-            cardsRoles.put(cards.get(cardNum), CardRole.NEUTRAL);
+            cardsRoles.put(random.get(cardNum), CardRole.NEUTRAL);
             ++cardNum;
         }
         for (int i = 0; i < details.getBLACK_CARDS_AMOUNT(); ++i) {
-            cardsRoles.put(cards.get(cardNum), CardRole.BLACK_CARD);
+            cardsRoles.put(random.get(cardNum), CardRole.BLACK_CARD);
             ++cardNum;
         }
     }
