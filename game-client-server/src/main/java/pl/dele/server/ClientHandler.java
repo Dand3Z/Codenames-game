@@ -74,13 +74,15 @@ public class ClientHandler extends Thread {
             sb.append(card.getPhrase()).append(System.lineSeparator());
         }
 
-        sendCommand(sb.toString());
+        sendCommand(sb);
     }
 
-    private void sendCommand(String command){
+    private void sendCommand(StringBuilder sb){
+        sb.append("END").append(System.lineSeparator());
+        String command = sb.toString();
         for(ClientHandler client: clients){
             log.debug(client.getName());
-            client.writer.println(command);
+            client.writer.println(command.trim());
         }
     }
 

@@ -16,8 +16,8 @@ import java.util.List;
 
 public class testClient extends Thread {
 
-    public static void main(String[] args) {
-        new testClient();
+    public static void main(String[] args) throws InterruptedException {
+        var x = new testClient();
     }
 
     private static Logger log = LoggerFactory.getLogger(Client.class);
@@ -31,7 +31,6 @@ public class testClient extends Thread {
     public testClient(){
         cards = new ArrayList<>();
         connectSocket();
-        writer.println("init");
     }
 
     public void connectSocket() {
@@ -41,6 +40,8 @@ public class testClient extends Thread {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
             start();
+
+            writer.print("init");
         }
         catch (IOException e) { e.getMessage(); }
     }
@@ -49,12 +50,16 @@ public class testClient extends Thread {
     public void run() {
         try {
             while (true){
-                log.debug("test");
+
                 String command;
-                while ((command = reader.readLine()) != null);
+                while ((command = reader.readLine()) == null);
+                log.debug(command);
                 StringBuilder sb = new StringBuilder();
                 String line;
-                while ((line = reader.readLine()) != null) { sb.append(line).append(System.lineSeparator()); }
+                while ((line = reader.readLine()).trim() != null) {
+                    sb.append(line).append(System.lineSeparator());
+                    if (line.trim().equalsIgnoreCase("END")) break;
+                }
                 log.debug("test2");
                 switch (command){
                     case Commands.INITIAL:
@@ -70,9 +75,9 @@ public class testClient extends Thread {
                         interpretationHandling(sb.toString());
                         break;
                 }
-                // send init - temp
-                //writer.println("init");
-                //refreshGui();
+
+                command = null;
+
             }
         }
         catch (IOException e) { e.getMessage(); }}

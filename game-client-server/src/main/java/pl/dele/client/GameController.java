@@ -1,5 +1,6 @@
 package pl.dele.client;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -80,14 +81,25 @@ public class GameController extends Thread{
 
     @Override
     public void run() {
+//        while (true) {
+//            System.out.println("dziala");
+//            if (2==3) break;
+//        } // testing thread
+
+
         try {
             while (true){
-                log.debug("test");
                 String command;
-                while ((command = reader.readLine()) != null);
+                while ((command = reader.readLine()) == null);
+                log.debug(command);
+
                 StringBuilder sb = new StringBuilder();
                 String line;
-                while ((line = reader.readLine()) != null) { sb.append(line).append(System.lineSeparator()); }
+                while ((line = reader.readLine().trim()) != null) {
+                    log.debug(line);
+                    sb.append(line).append(System.lineSeparator());
+                    if(line.trim().equalsIgnoreCase("END")) break;
+                }
                 log.debug("test2");
                 switch (command){
                     case Commands.INITIAL:
@@ -103,6 +115,7 @@ public class GameController extends Thread{
                         interpretationHandling(sb.toString());
                         break;
                 }
+                command = null;
                 // send init - temp
                 //writer.println("init");
                 //refreshGui();
@@ -119,7 +132,10 @@ public class GameController extends Thread{
             cards.add(new Card(phrase));
         }
         // we got list of cards, now display it on board
-        refreshGui();  // testing
+        Platform.runLater(() -> {
+            refreshGui();
+        });
+        //refreshGui();  // testing
     }
 
     private void interpretationHandling(String instruction) {
