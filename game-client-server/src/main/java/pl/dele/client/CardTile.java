@@ -1,4 +1,4 @@
-package pl.dele.gui;
+package pl.dele.client;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;

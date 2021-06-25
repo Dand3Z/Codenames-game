@@ -3,6 +3,8 @@ package pl.dele;
 import pl.dele.cards.Card;
 import pl.dele.cards.CardRole;
 import pl.dele.cards.Pack;
+import pl.dele.teams.Operative;
+import pl.dele.teams.Spymaster;
 import pl.dele.teams.Team;
 import pl.dele.teams.TeamColor;
 
@@ -16,7 +18,7 @@ public class GameEngine {
     private final Team redTeam;
     private final Team blueTeam;
     private final PropertyChangeSupport observerSupport;
-    // left to guess .....
+    // left to guess ..... (map)
 
     private TeamColor guessingTeam;
 
@@ -31,6 +33,10 @@ public class GameEngine {
 
     public GameEngine(Team redTeam, Team blueTeam){
         this(redTeam, blueTeam, new Pack());
+    }
+
+    public GameEngine(Team redTeam, Team blueTeam, String path){
+        this(redTeam, blueTeam, new Pack(path));
     }
 
     private CardRole whatRoleIsIt(String phrase){
@@ -83,6 +89,27 @@ public class GameEngine {
 
     private void changeGuessingTeam(){
         guessingTeam = (guessingTeam == TeamColor.BLUE_TEAM) ? TeamColor.RED_TEAM : TeamColor.BLUE_TEAM;
+    }
+
+    // == join to team ==
+    public void addRedTeamSpymaster(Spymaster spymaster){
+        redTeam.addSpymaster(spymaster);
+    }
+
+    public void addBlueTeamSpymaster(Spymaster spymaster){
+        blueTeam.addSpymaster(spymaster);
+    }
+
+    public void addRedTeamOperative(Operative operative){
+        redTeam.addOperative(operative);
+    }
+
+    public void addBlueTeamOperative(Operative operative){
+        blueTeam.addOperative(operative);
+    }
+
+    public Pack getPack(){
+        return new Pack(pack);
     }
 
     // == OBSERVER ==

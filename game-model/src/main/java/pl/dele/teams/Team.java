@@ -9,29 +9,29 @@ public class Team {
     private List<Operative> operatives;
     private TeamColor teamColor;
 
-    Team(TeamColor teamColor) {
+    public Team(TeamColor teamColor) {
         operatives = new ArrayList<>();
         this.teamColor = teamColor;
     }
 
-    void addSpymaster(Spymaster newSpymaster){
+    public void addSpymaster(Spymaster newSpymaster){
         if (newSpymaster == null) throw new IllegalArgumentException("Argument is null!");
         if (spymaster != null) throw new IllegalAccessError("Spymaster is assigned!");
         this.spymaster = newSpymaster;
     }
 
-    void addOperative(Operative newOperative){
+    public void addOperative(Operative newOperative){
         if (newOperative == null || operatives.contains(newOperative))
             throw new IllegalArgumentException("Invalid argument!");
         this.operatives.add(newOperative);
     }
 
-    void removeSpymaster(){
+    public void removeSpymaster(){
         if (spymaster == null) throw new IllegalArgumentException("Spymaster isn't assigned");
         spymaster = null;
     }
 
-    void removeOperative(Operative operative){
+    public void removeOperative(Operative operative){
         if (operative == null) throw new IllegalArgumentException("Operative is null!");
         if (operatives.contains(operative)) operatives.remove(operative);
     }

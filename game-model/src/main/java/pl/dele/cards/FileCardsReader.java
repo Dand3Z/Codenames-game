@@ -15,20 +15,21 @@ import java.util.Scanner;
  */
 public class FileCardsReader implements IGenerateCards {
 
+    private static final String DEFAULT_PATH = "src/main/resources/cards.csv";
+
     // == fields ==
     // logger
     private static Logger log = LoggerFactory.getLogger(FileCardsReader.class);
     // path to the cards file
     private final String PATH;
 
-
     // == constructors ==
     public FileCardsReader(){
-        this("cards.csv");
+        this(DEFAULT_PATH);
     }
 
     public FileCardsReader(String PATH) {
-        if (PATH == null || PATH.isEmpty()) this.PATH = "cards.csv";
+        if (PATH == null || PATH.isEmpty()) this.PATH = DEFAULT_PATH;
         else this.PATH = PATH;
     }
 

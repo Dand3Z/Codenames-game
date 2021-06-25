@@ -1,5 +1,7 @@
 package pl.dele.cards;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.dele.teams.TeamColor;
 
 import java.security.InvalidParameterException;
@@ -13,6 +15,7 @@ import java.util.List;
 public class Pack {
 
     // == fields ==
+    private static Logger log = LoggerFactory.getLogger(Pack.class);
     private final List<Card> cards;
     private final PackDetails details;
     private RoleMap cardsRoles;
@@ -46,9 +49,18 @@ public class Pack {
         this(generator, amount, 9, 1);
     }
 
-    // Default Pack
     public Pack(){
         this(new FileCardsReader(), 25, 9, 1);
+    }
+
+    public Pack(String path){
+        this(new FileCardsReader(path), 25, 9,1);
+    }
+
+    public Pack(Pack pack){
+        this.cards = new ArrayList<>(pack.cards);
+        this.details = new PackDetails(pack.details);
+        this.cardsRoles = new RoleMap(pack.cardsRoles);
     }
 
     // == methods ==

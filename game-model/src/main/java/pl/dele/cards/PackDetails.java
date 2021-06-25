@@ -30,6 +30,15 @@ class PackDetails {
                                 - BLACK_CARDS_AMOUNT;
     }
 
+    PackDetails(PackDetails details){
+        this.AMOUNT = details.AMOUNT;
+        this.STARTING_TEAM = details.STARTING_TEAM;
+        this.RED_CARDS_AMOUNT = details.RED_CARDS_AMOUNT;
+        this.BLUE_CARDS_AMOUNT = details.BLUE_CARDS_AMOUNT;
+        this.NEUTRAL_CARDS_AMOUNT = details.NEUTRAL_CARDS_AMOUNT;
+        this.BLACK_CARDS_AMOUNT = details.BLACK_CARDS_AMOUNT;
+    }
+
     public PackDetails(){
         this(25,9,1);
     }
