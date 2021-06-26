@@ -151,9 +151,9 @@
             </GridPane>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TextField prefHeight="31.0" prefWidth="315.0" />
-                  <ComboBox prefHeight="31.0" prefWidth="61.0" />
-                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="93.0" text="Give Clue" />
+                  <TextField fx:id="clueField" prefHeight="31.0" prefWidth="315.0" />
+                  <ComboBox fx:id="cbGoals" prefHeight="31.0" prefWidth="61.0" />
+                  <Button fx:id="giveClueButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="93.0" text="Give Clue" />
                </children>
             </HBox>
          </children>

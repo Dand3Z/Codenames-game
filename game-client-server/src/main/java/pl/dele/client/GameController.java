@@ -3,6 +3,8 @@ package pl.dele.client;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -25,21 +27,6 @@ import java.util.*;
 import static pl.dele.client.ClientService.*;
 
 public class GameController extends Thread{
-
-    private static Logger log = LoggerFactory.getLogger(Client.class);
-    public static final Color TEAM_ROLE_SELECTED = Color.CHOCOLATE;
-
-    private Socket socket;
-    private final List<Card> cards;
-    private Map<Card, CardRole> cardRoleMap;
-    private Map<Card, Boolean> isCardDiscovered;
-    private BufferedReader reader;
-    private PrintWriter writer;
-
-    private TeamColor team;
-    private PlayerType type;
-    private boolean isMyTurn;
-
 
     @FXML
     private GridPane gripMap;
@@ -65,17 +52,40 @@ public class GameController extends Thread{
     @FXML
     private Button joinBlueSpymaster;
 
-    public GameController() {
-        cards = new ArrayList<>();
-        cardRoleMap = new LinkedHashMap<>();
-        isCardDiscovered = new HashMap<>();
-    }
+    @FXML
+    private TextField clueField;
+
+    @FXML
+    private ComboBox cbGoals;
+
+    @FXML
+    private Button giveClueButton;
 
     @FXML
     void initialize(){
         connectSocket();
         refreshGui();
         implButtons();
+    }
+
+    private static Logger log = LoggerFactory.getLogger(Client.class);
+    public static final Color TEAM_ROLE_SELECTED = Color.CHOCOLATE;
+
+    private Socket socket;
+    private final List<Card> cards;
+    private Map<Card, CardRole> cardRoleMap;
+    private Map<Card, Boolean> isCardDiscovered;
+    private BufferedReader reader;
+    private PrintWriter writer;
+
+    private TeamColor team;
+    private PlayerType type;
+    private boolean isMyTurn;
+
+    public GameController() {
+        cards = new ArrayList<>();
+        cardRoleMap = new LinkedHashMap<>();
+        isCardDiscovered = new HashMap<>();
     }
 
     private void refreshGui(){

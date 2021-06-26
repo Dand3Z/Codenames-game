@@ -46,30 +46,32 @@ public class ClientHandler extends Thread {
             String msg;
             while (true) {
                 while ((msg = reader.readLine().trim()) != null){
-                    if (msg.equalsIgnoreCase(ServerRequest.JOIN)) {
-                        team = getTeamColor(reader.readLine().trim());
-                        type = getPlayerType(reader.readLine().trim());
-                        log.info("Execute JOIN");
-                        log.info("teamColor: {}" ,team.toString());
-                        log.info("playerType: {}", type.toString());
-                        joinTheTeam(team, type);
-                        // send responsde
-                        sendRoleInfo(team, type);
-                    }
-                    else if (msg.equalsIgnoreCase("card")){
-                        // card analysis
-                    }
-                    else if (msg.equalsIgnoreCase(ServerRequest.INIT)){
-                        // initial 5x5
-                        log.info("Execute INIT");
-                        initialCards();
-                    }
-                    else if (msg.equalsIgnoreCase(ServerRequest.NEXT_TURN)){
-                        gameEngine.nextTurn();
-                        whoseTurnIsNow();
-                    }
-                    else{
-                        // other commands ...
+                    switch (msg){
+                        case ServerRequest.JOIN:
+                            team = getTeamColor(reader.readLine().trim());
+                            type = getPlayerType(reader.readLine().trim());
+                            log.info("Execute JOIN");
+                            log.info("teamColor: {}" ,team.toString());
+                            log.info("playerType: {}", type.toString());
+                            joinTheTeam(team, type);
+                            // send responsde
+                            sendRoleInfo(team, type);
+                            break;
+                        case "card":
+                            // card analysis
+                            break;
+                        case ServerRequest.INIT:
+                            // initial 5x5
+                            log.info("Execute INIT");
+                            initialCards();
+                            break;
+                        case ServerRequest.NEXT_TURN:
+                            gameEngine.nextTurn();
+                            whoseTurnIsNow();
+                            break;
+                        default:
+                            // other commands ...
+                            break;
                     }
                 }
             }
