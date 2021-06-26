@@ -83,20 +83,22 @@ public class GameController extends Thread{
                 gripMap.add(cardTile,x,y);
 
                 String phrase = "";
+                int current = x + 5 * y;
                 if (cards != null && cards.size() > 0){
-                    phrase = cards.get(x + 5 * y).getPhrase();
+                    phrase = cards.get(current).getPhrase();
                     cardTile.addPhrase(phrase);
-                }
 
-                // paint card if it is discovered or you are a spymaster (temp impl)
-                if (cards != null && cards.size() > 0) {
-
-                    CardRole cardRole = cardRoleMap.get(new Card(phrase));
-                    if (cardRole == null) {
-                        log.error("NULL cardRole!");
-                        continue;
+                    // paint card if it is discovered or you are a spymaster
+                    boolean isDiscovered = isCardDiscovered.get(new Card(phrase)) != null
+                                ? isCardDiscovered.get(new Card(phrase)) : false;
+                    if(type == PlayerType.SPYMASTER || isDiscovered){
+                        CardRole cardRole = cardRoleMap.get(new Card(phrase));
+                        if (cardRole == null) {
+                            log.error("NULL cardRole!");
+                            continue;
+                        }
+                        cardTile.setBackground(getCardColor(cardRole));
                     }
-                    cardTile.setBackground(getCardColor(cardRole));
                 }
             }
         }

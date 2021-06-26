@@ -90,7 +90,7 @@ public class ClientHandler extends Thread {
         for(Card card: gameEngine.getPack().getCards()){
             initialBuilder.append(card.getPhrase()).append(System.lineSeparator());
         }
-        sendCommand(initialBuilder);
+        sendCommandToAll(initialBuilder);
 
         // color the cards on board
         log.debug("Send cards colors");
@@ -99,7 +99,7 @@ public class ClientHandler extends Thread {
         for(Card card: gameEngine.getPack().getCards()){
             colorBuilder.append(gameEngine.getPack().getCardRole(card)).append(System.lineSeparator());
         }
-        sendCommand(colorBuilder);
+        sendCommandToAll(colorBuilder);
     }
 
     private synchronized void sendRoleInfo(TeamColor teamColor, PlayerType playerType) {
@@ -109,7 +109,7 @@ public class ClientHandler extends Thread {
                 .append(teamColor).append(System.lineSeparator())
                 .append(playerType).append(System.lineSeparator());
 
-        sendCommand(roleInfo);
+        sendCommandToOne(roleInfo);
     }
 
     private synchronized void joinTheTeam(TeamColor teamColor, PlayerType playerType){
@@ -145,13 +145,20 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private synchronized void sendCommand(StringBuilder sb){
+    private synchronized void sendCommandToAll(StringBuilder sb){
         sb.append("END").append(System.lineSeparator());
         String command = sb.toString();
         for(ClientHandler client: clients){
             log.debug("Send response to {}", client.getName());
             client.writer.println(command.trim());
         }
+    }
+
+    private synchronized void sendCommandToOne(StringBuilder sb){
+        sb.append("END").append(System.lineSeparator());
+        String command = sb.toString();
+        log.debug("Send response to {}", getName());
+        writer.println(command.trim());
     }
 
     // join to team
