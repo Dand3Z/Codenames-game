@@ -8,9 +8,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.dele.Commands;
+import pl.dele.ServerRequest;
+import pl.dele.ServerResponse;
 import pl.dele.cards.Card;
 import pl.dele.cards.CardRole;
+import pl.dele.teams.PlayerType;
+import pl.dele.teams.TeamColor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,9 +22,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
+import static pl.dele.client.ClientService.*;
+
 public class GameController extends Thread{
 
     private static Logger log = LoggerFactory.getLogger(Client.class);
+    public static final Color TEAM_ROLE_SELECTED = Color.CHOCOLATE;
 
     private Socket socket;
     private final List<Card> cards;
@@ -29,7 +35,9 @@ public class GameController extends Thread{
     private Map<Card, Boolean> isCardDiscovered;
     private BufferedReader reader;
     private PrintWriter writer;
-    private boolean selectedTeam;
+
+    private TeamColor team;
+    //private TeamRole role;
 
     @FXML
     private GridPane gripMap;
@@ -62,7 +70,6 @@ public class GameController extends Thread{
     void initialize(){
         connectSocket();
         refreshGui();
-
         implButtons();
     }
 
@@ -80,6 +87,12 @@ public class GameController extends Thread{
 
                 // paint card if it is discovered or you are a spymaster (temp impl)
                 if (cards != null && cards.size() > 0) {
+
+                    log.debug("cards size = {}", cards.size());
+                    for (Card c:
+                         cards) { log.debug(c.getPhrase());
+                    }//debug
+
                     CardRole cardRole = cardRoleMap.get(new Card(phrase));
                     cardTile.setBackground(getCardColor(cardRole));
                 }
@@ -115,20 +128,20 @@ public class GameController extends Thread{
                 }
                 log.debug("test2");
                 switch (command){
-                    case Commands.INITIAL:
-                        log.debug(Commands.INITIAL);
+                    case ServerResponse.INITIAL:
+                        log.debug(ServerResponse.INITIAL);
                         initialHandling(sb.toString());
                         break;
-                    case Commands.PAINT_CARDS:
-                        log.debug(Commands.PAINT_CARDS);
+                    case ServerResponse.PAINT_CARDS:
+                        log.debug(ServerResponse.PAINT_CARDS);
                         paintCardsHandling(sb.toString());
                         break;
-                    case Commands.JOIN_TEAM:
-                        log.debug(Commands.JOIN_TEAM);
+                    case ServerResponse.JOIN_TEAM:
+                        log.debug(ServerResponse.JOIN_TEAM);
                         joinHandling(sb.toString());
                         break;
-                    case Commands.PHRASE_INTERPRETATION:
-                        log.debug(Commands.PHRASE_INTERPRETATION);
+                    case ServerResponse.PHRASE_INTERPRETATION:
+                        log.debug(ServerResponse.PHRASE_INTERPRETATION);
                         interpretationHandling(sb.toString());
                         break;
                 }
@@ -143,6 +156,7 @@ public class GameController extends Thread{
     private void initialHandling(String instruction) {
         String[] phrases = instruction.split(System.lineSeparator());
         for(String phrase: phrases){
+            if(phrase.equalsIgnoreCase("END")) break;
             cards.add(new Card(phrase));
         }
         // we got list of cards, now display it on board
@@ -171,35 +185,13 @@ public class GameController extends Thread{
 
     }
 
-    private CardRole stringToCardRole(String s){
-        switch (s){
-            case "RED_TEAM":
-                return CardRole.RED_TEAM;
-            case "BLUE_TEAM":
-                return CardRole.BLUE_TEAM;
-            case "NEUTRAL":
-                return CardRole.NEUTRAL;
-            default:
-                return CardRole.BLACK_CARD;
-        }
-    }
 
-    private Color getCardColor(CardRole cardRole){
-        switch (cardRole){
-            case RED_TEAM:
-                return Color.FIREBRICK;
-            case BLUE_TEAM:
-                return Color.LIGHTBLUE;
-            case BLACK_CARD:
-                return Color.GRAY;
-            default:
-                return Color.WHITESMOKE;
-        }
-    }
+
+
 
     private void implButtons() {
         startGameButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            writer.println("init");
+            writer.println(ServerRequest.INIT);
         });
         // impl for testing -> change it in final version
         resetButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -207,21 +199,29 @@ public class GameController extends Thread{
         });
         joinRedOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("joinRedOperative");
+            writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.OPERATIVE));
+            joinRedOperative.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();
             refreshGui();
         });
         joinRedSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("joinRedSpymaster");
+            writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.SPYMASTER));
+            joinRedSpymaster.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();
             refreshGui();
         });
         joinBlueOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("joinBlueOperative");
+            writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.OPERATIVE));
+            joinBlueOperative.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();
             refreshGui();
         });
         joinBlueSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("joinBlueSpymaster");
+            writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.SPYMASTER));
+            joinBlueSpymaster.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();
             refreshGui();
         });

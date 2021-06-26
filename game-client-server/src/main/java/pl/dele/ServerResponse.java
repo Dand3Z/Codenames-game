@@ -1,6 +1,6 @@
 package pl.dele;
 
-public final class Commands {
+public final class ServerResponse {
 
     public static final String INITIAL = "INITIAL";
     public static final String PAINT_CARDS = "PAINT_CARDS";

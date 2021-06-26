@@ -2,7 +2,8 @@ package pl.dele.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.dele.Commands;
+import pl.dele.ServerRequest;
+import pl.dele.ServerResponse;
 import pl.dele.GameEngine;
 import pl.dele.cards.Card;
 
@@ -23,6 +24,9 @@ public class ClientHandler extends Thread {
     private BufferedReader reader;
     private PrintWriter writer;
 
+    //private TeamColor team;
+    //private TeamRole role;
+
     public ClientHandler(Socket socket, List<ClientHandler> clients, GameEngine gameEngine){
         this.socket = socket;
         this.clients = clients;
@@ -40,13 +44,13 @@ public class ClientHandler extends Thread {
             String msg;
             while (true) {
                 while ((msg = reader.readLine().trim()) != null){
-                    if (msg.equalsIgnoreCase("join")) {
-                        // join team
+                    if (msg.equalsIgnoreCase(ServerRequest.JOIN)) {
+                        while ((msg = reader.readLine().trim()) != null) log.debug(msg);
                     }
                     else if (msg.equalsIgnoreCase("card")){
                         // card analysis
                     }
-                    else if (msg.equalsIgnoreCase("init")){
+                    else if (msg.equalsIgnoreCase(ServerRequest.INIT)){
                         // initial 5x5
                         initialCards();
                     }
@@ -70,7 +74,7 @@ public class ClientHandler extends Thread {
     private synchronized void initialCards(){
         StringBuilder initialBuilder = new StringBuilder();
         // fill the cards board
-        initialBuilder.append(Commands.INITIAL).append(System.lineSeparator());
+        initialBuilder.append(ServerResponse.INITIAL).append(System.lineSeparator());
         for(Card card: gameEngine.getPack().getCards()){
             initialBuilder.append(card.getPhrase()).append(System.lineSeparator());
         }
@@ -78,7 +82,7 @@ public class ClientHandler extends Thread {
 
         // color the cards on board
         StringBuilder colorBuilder = new StringBuilder();
-        colorBuilder.append(Commands.PAINT_CARDS).append(System.lineSeparator());
+        colorBuilder.append(ServerResponse.PAINT_CARDS).append(System.lineSeparator());
         for(Card card: gameEngine.getPack().getCards()){
             colorBuilder.append(gameEngine.getPack().getCardRole(card)).append(System.lineSeparator());
         }

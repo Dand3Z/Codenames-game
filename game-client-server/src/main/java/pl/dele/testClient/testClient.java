@@ -2,7 +2,7 @@ package pl.dele.testClient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.dele.Commands;
+import pl.dele.ServerResponse;
 import pl.dele.cards.Card;
 import pl.dele.client.Client;
 
@@ -62,16 +62,16 @@ public class testClient extends Thread {
                 }
                 log.debug("test2");
                 switch (command){
-                    case Commands.INITIAL:
-                        log.debug(Commands.INITIAL);
+                    case ServerResponse.INITIAL:
+                        log.debug(ServerResponse.INITIAL);
                         initialHandling(sb.toString());
                         break;
-                    case Commands.JOIN_TEAM:
-                        log.debug(Commands.JOIN_TEAM);
+                    case ServerResponse.JOIN_TEAM:
+                        log.debug(ServerResponse.JOIN_TEAM);
                         joinHandling(sb.toString());
                         break;
-                    case Commands.PHRASE_INTERPRETATION:
-                        log.debug(Commands.PHRASE_INTERPRETATION);
+                    case ServerResponse.PHRASE_INTERPRETATION:
+                        log.debug(ServerResponse.PHRASE_INTERPRETATION);
                         interpretationHandling(sb.toString());
                         break;
                 }
