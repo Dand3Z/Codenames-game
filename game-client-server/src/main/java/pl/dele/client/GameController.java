@@ -1,6 +1,8 @@
 package pl.dele.client;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -91,6 +93,8 @@ public class GameController extends Thread{
     private void refreshGui(){
         log.debug("cards size = {}", cards.size());
         for (Card c: cards) { log.debug("Card {}", c.getPhrase()); }
+
+        setVisibleClueFields();
 
         for(int x = 0; x < 5; ++x){
             for(int y = 0; y < 5; ++y){
@@ -218,6 +222,10 @@ public class GameController extends Thread{
         PlayerType playerType = getPlayerType(msg[1]);
         isMyTurn = (teamColor == team && playerType == type) ? true : false;
         log.info("Is my turn: {}", isMyTurn);
+
+        Platform.runLater(() -> {
+            refreshGui();
+        });
     }
 
 
@@ -260,6 +268,10 @@ public class GameController extends Thread{
             disableJoinButtons();
             refreshGui();
         });
+
+        ObservableList<Integer> list = FXCollections.observableArrayList();
+        list.addAll(0,1,2,3,4,5,6,7,8,9);
+        cbGoals.setItems(list);
     }
 
     private void disableJoinButtons(){
@@ -267,6 +279,27 @@ public class GameController extends Thread{
         joinBlueSpymaster.setDisable(true);
         joinRedSpymaster.setDisable(true);
         joinRedOperative.setDisable(true);
+    }
+
+    private void setVisibleClueFields(){
+        if (type == null) return;
+
+        switch (type){
+            case SPYMASTER:
+                if (isMyTurn){
+                    giveClueButton.setVisible(true);
+                    clueField.setEditable(true);
+                    clueField.setText("");
+                    cbGoals.setEditable(true);
+                    cbGoals.getSelectionModel().selectFirst();
+                    break;
+                }
+            case OPERATIVE:
+                giveClueButton.setVisible(false);
+                clueField.setEditable(false);
+                cbGoals.setEditable(false);
+                break;
+        }
     }
 
 }
