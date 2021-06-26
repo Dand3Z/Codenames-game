@@ -38,6 +38,8 @@ public class GameController extends Thread{
 
     private TeamColor team;
     private PlayerType type;
+    private boolean isMyTurn;
+
 
     @FXML
     private GridPane gripMap;
@@ -47,6 +49,9 @@ public class GameController extends Thread{
 
     @FXML
     private Button resetButton;
+
+    @FXML
+    private Button passButton;
 
     @FXML
     private Button joinRedOperative;
@@ -143,6 +148,10 @@ public class GameController extends Thread{
                         log.debug("Execute command: {}", ServerResponse.JOIN_TEAM);
                         joinHandling(sb.toString());
                         break;
+                    case ServerResponse.CHANGE_TURN:
+                        log.debug("Execute command: {}", ServerResponse.CHANGE_TURN);
+                        whoseTurnHandling(sb.toString());
+                        break;
                     case ServerResponse.PHRASE_INTERPRETATION:
                         log.debug("Execute command: {}", ServerResponse.PHRASE_INTERPRETATION);
                         interpretationHandling(sb.toString());
@@ -193,8 +202,13 @@ public class GameController extends Thread{
         log.info("joinHandling(): type {}", type.toString());
     }
 
-
-
+    private void whoseTurnHandling(String instruction) {
+        String[] msg = instruction.split(System.lineSeparator());
+        TeamColor teamColor = getTeamColor(msg[0]);
+        PlayerType playerType = getPlayerType(msg[1]);
+        isMyTurn = (teamColor == team && playerType == type) ? true : false;
+        log.info("Is my turn: {}", isMyTurn);
+    }
 
 
     private void implButtons() {

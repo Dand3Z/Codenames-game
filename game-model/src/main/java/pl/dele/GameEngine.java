@@ -3,10 +3,7 @@ package pl.dele;
 import pl.dele.cards.Card;
 import pl.dele.cards.CardRole;
 import pl.dele.cards.Pack;
-import pl.dele.teams.Operative;
-import pl.dele.teams.Spymaster;
-import pl.dele.teams.Team;
-import pl.dele.teams.TeamColor;
+import pl.dele.teams.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -21,12 +18,14 @@ public class GameEngine {
     // left to guess ..... (map)
 
     private TeamColor guessingTeam; // whose turn is now
+    private PlayerType guessingRole; // whose role has turn
 
     public GameEngine(Team redTeam, Team blueTeam, Pack pack) {
         this.redTeam = redTeam;
         this.blueTeam = blueTeam;
         this.pack = pack;
         this.guessingTeam = pack.whichTeamStarts();
+        this.guessingRole = PlayerType.SPYMASTER;  // spymaster always starts
 
         observerSupport = new PropertyChangeSupport(this);
     }
@@ -85,11 +84,16 @@ public class GameEngine {
 
     //public boolean isGameWon() {}
 
-
-
     private void changeGuessingTeam(){
         guessingTeam = (guessingTeam == TeamColor.BLUE_TEAM) ? TeamColor.RED_TEAM : TeamColor.BLUE_TEAM;
     }
+
+    private void changeGuessingRole(){
+        guessingRole = (guessingRole == PlayerType.SPYMASTER) ? PlayerType.OPERATIVE : PlayerType.SPYMASTER;
+    }
+
+    public TeamColor whoseTeamGuessing(){ return guessingTeam; }
+    public PlayerType whoseRoleHasTurn(){ return guessingRole; }
 
     // == join to team ==
     public void addRedTeamSpymaster(Spymaster spymaster){

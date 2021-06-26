@@ -100,6 +100,9 @@ public class ClientHandler extends Thread {
             colorBuilder.append(gameEngine.getPack().getCardRole(card)).append(System.lineSeparator());
         }
         sendCommandToAll(colorBuilder);
+
+        // send whose team starts the game
+        whoseTurnIsNow();
     }
 
     private synchronized void sendRoleInfo(TeamColor teamColor, PlayerType playerType) {
@@ -143,6 +146,14 @@ public class ClientHandler extends Thread {
                 }
                 break;
         }
+    }
+
+    private synchronized void whoseTurnIsNow(){
+        StringBuilder whoseTurn = new StringBuilder();
+        whoseTurn.append(ServerResponse.CHANGE_TURN).append(System.lineSeparator())
+                 .append(gameEngine.whoseTeamGuessing()).append(System.lineSeparator())
+                 .append(gameEngine.whoseRoleHasTurn()).append(System.lineSeparator());
+        sendCommandToAll(whoseTurn);
     }
 
     private synchronized void sendCommandToAll(StringBuilder sb){
