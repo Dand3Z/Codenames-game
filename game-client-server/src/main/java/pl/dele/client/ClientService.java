@@ -42,6 +42,12 @@ final class ClientService {
         return sb.toString().trim();
     }
 
+    static String nextTurn(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(ServerRequest.NEXT_TURN).append(System.lineSeparator());
+        return sb.toString().trim();
+    }
+
     static TeamColor getTeamColor(String teamString){
         switch (teamString){
             case "RED_TEAM":

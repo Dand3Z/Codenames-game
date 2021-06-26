@@ -82,14 +82,24 @@ public class GameEngine {
 
     public void pass(){}
 
-    //public boolean isGameWon() {}
+    // public boolean isGameWon() {}
 
+    @Deprecated
     private void changeGuessingTeam(){
         guessingTeam = (guessingTeam == TeamColor.BLUE_TEAM) ? TeamColor.RED_TEAM : TeamColor.BLUE_TEAM;
     }
 
+    @Deprecated
     private void changeGuessingRole(){
         guessingRole = (guessingRole == PlayerType.SPYMASTER) ? PlayerType.OPERATIVE : PlayerType.SPYMASTER;
+    }
+
+    public void nextTurn(){
+        if (guessingRole == PlayerType.SPYMASTER) guessingRole = PlayerType.OPERATIVE;
+        else {
+            guessingTeam = (guessingTeam == TeamColor.BLUE_TEAM) ? TeamColor.RED_TEAM : TeamColor.BLUE_TEAM;
+            guessingRole = PlayerType.SPYMASTER;
+        }
     }
 
     public TeamColor whoseTeamGuessing(){ return guessingTeam; }
