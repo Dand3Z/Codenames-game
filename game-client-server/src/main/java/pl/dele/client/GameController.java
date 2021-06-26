@@ -219,6 +219,9 @@ public class GameController extends Thread{
         resetButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             refreshGui();
         });
+        passButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (isMyTurn) writer.println(nextTurn());
+        });
         joinRedOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinRedOperative");
             writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.OPERATIVE));

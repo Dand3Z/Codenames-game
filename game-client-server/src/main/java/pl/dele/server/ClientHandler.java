@@ -64,6 +64,10 @@ public class ClientHandler extends Thread {
                         log.info("Execute INIT");
                         initialCards();
                     }
+                    else if (msg.equalsIgnoreCase(ServerRequest.NEXT_TURN)){
+                        gameEngine.nextTurn();
+                        whoseTurnIsNow();
+                    }
                     else{
                         // other commands ...
                     }
