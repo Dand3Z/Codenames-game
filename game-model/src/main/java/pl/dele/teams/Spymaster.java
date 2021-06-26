@@ -8,5 +8,5 @@ public class Spymaster extends Player{
         super(name);
     }
 
-    Spymaster() { super(); }
+    public Spymaster() { super(); }
 }

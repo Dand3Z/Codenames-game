@@ -37,7 +37,7 @@ public class GameController extends Thread{
     private PrintWriter writer;
 
     private TeamColor team;
-    //private TeamRole role;
+    private PlayerType type;
 
     @FXML
     private GridPane gripMap;
@@ -74,6 +74,9 @@ public class GameController extends Thread{
     }
 
     private void refreshGui(){
+        log.debug("cards size = {}", cards.size());
+        for (Card c: cards) { log.debug("Card {}", c.getPhrase()); }
+
         for(int x = 0; x < 5; ++x){
             for(int y = 0; y < 5; ++y){
                 CardTile cardTile = new CardTile();
@@ -88,12 +91,11 @@ public class GameController extends Thread{
                 // paint card if it is discovered or you are a spymaster (temp impl)
                 if (cards != null && cards.size() > 0) {
 
-                    log.debug("cards size = {}", cards.size());
-                    for (Card c:
-                         cards) { log.debug(c.getPhrase());
-                    }//debug
-
                     CardRole cardRole = cardRoleMap.get(new Card(phrase));
+                    if (cardRole == null) {
+                        log.error("NULL cardRole!");
+                        continue;
+                    }
                     cardTile.setBackground(getCardColor(cardRole));
                 }
             }
@@ -103,7 +105,7 @@ public class GameController extends Thread{
     public void connectSocket() {
         try {
             socket = new Socket("localhost", 8888);
-            log.info("Client is connecting to pl.dele.server");
+            log.info("Client is connected to server");
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
             start();
@@ -117,31 +119,30 @@ public class GameController extends Thread{
             while (true){
                 String command;
                 while ((command = reader.readLine()) == null);
-                log.debug(command);
+                log.debug("read command: {}", command);
 
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = reader.readLine().trim()) != null) {
-                    log.debug(line);
+                    log.debug("read argument: {}", line);
                     sb.append(line).append(System.lineSeparator());
                     if(line.trim().equalsIgnoreCase("END")) break;
                 }
-                log.debug("test2");
                 switch (command){
                     case ServerResponse.INITIAL:
-                        log.debug(ServerResponse.INITIAL);
+                        log.debug("Execute command: {}",ServerResponse.INITIAL);
                         initialHandling(sb.toString());
                         break;
                     case ServerResponse.PAINT_CARDS:
-                        log.debug(ServerResponse.PAINT_CARDS);
+                        log.debug("Execute command: {}", ServerResponse.PAINT_CARDS);
                         paintCardsHandling(sb.toString());
                         break;
                     case ServerResponse.JOIN_TEAM:
-                        log.debug(ServerResponse.JOIN_TEAM);
+                        log.debug("Execute command: {}", ServerResponse.JOIN_TEAM);
                         joinHandling(sb.toString());
                         break;
                     case ServerResponse.PHRASE_INTERPRETATION:
-                        log.debug(ServerResponse.PHRASE_INTERPRETATION);
+                        log.debug("Execute command: {}", ServerResponse.PHRASE_INTERPRETATION);
                         interpretationHandling(sb.toString());
                         break;
                 }
@@ -154,6 +155,7 @@ public class GameController extends Thread{
 
     // == command handling ==
     private void initialHandling(String instruction) {
+        cards.clear();
         String[] phrases = instruction.split(System.lineSeparator());
         for(String phrase: phrases){
             if(phrase.equalsIgnoreCase("END")) break;
@@ -182,7 +184,11 @@ public class GameController extends Thread{
     }
 
     private void joinHandling(String instruction) {
-
+        String[] roleInfo = instruction.split(System.lineSeparator());
+        team = getTeamColor(roleInfo[0]);
+        type = getPlayerType(roleInfo[1]);
+        log.info("joinHandling(): team {}", team.toString());
+        log.info("joinHandling(): type {}", type.toString());
     }
 
 
@@ -198,28 +204,28 @@ public class GameController extends Thread{
             refreshGui();
         });
         joinRedOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            log.debug("joinRedOperative");
+            log.debug("Pressed button: joinRedOperative");
             writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.OPERATIVE));
             joinRedOperative.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();
             refreshGui();
         });
         joinRedSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            log.debug("joinRedSpymaster");
+            log.debug("Pressed button: joinRedSpymaster");
             writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.SPYMASTER));
             joinRedSpymaster.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();
             refreshGui();
         });
         joinBlueOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            log.debug("joinBlueOperative");
+            log.debug("Pressed button: joinBlueOperative");
             writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.OPERATIVE));
             joinBlueOperative.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();
             refreshGui();
         });
         joinBlueSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            log.debug("joinBlueSpymaster");
+            log.debug("Pressed button: joinBlueSpymaster");
             writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.SPYMASTER));
             joinBlueSpymaster.setTextFill(TEAM_ROLE_SELECTED);
             disableJoinButtons();

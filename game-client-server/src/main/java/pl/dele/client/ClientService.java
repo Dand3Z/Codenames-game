@@ -21,8 +21,8 @@ final class ClientService {
         }
     }
 
-    static CardRole stringToCardRole(String s){
-        switch (s){
+    static CardRole stringToCardRole(String cardType){
+        switch (cardType){
             case "RED_TEAM":
                 return CardRole.RED_TEAM;
             case "BLUE_TEAM":
@@ -41,4 +41,24 @@ final class ClientService {
           .append(playerType).append(System.lineSeparator());
         return sb.toString().trim();
     }
+
+    static TeamColor getTeamColor(String teamString){
+        switch (teamString){
+            case "RED_TEAM":
+                return TeamColor.RED_TEAM;
+            default:
+                return TeamColor.BLUE_TEAM;
+        }
+    }
+
+    static PlayerType getPlayerType(String typeString){
+        switch (typeString){
+            case "SPYMASTER":
+                return PlayerType.SPYMASTER;
+            default:
+                return PlayerType.OPERATIVE;
+        }
+    }
+
+
 }

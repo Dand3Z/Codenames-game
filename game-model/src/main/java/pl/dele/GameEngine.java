@@ -20,7 +20,7 @@ public class GameEngine {
     private final PropertyChangeSupport observerSupport;
     // left to guess ..... (map)
 
-    private TeamColor guessingTeam;
+    private TeamColor guessingTeam; // whose turn is now
 
     public GameEngine(Team redTeam, Team blueTeam, Pack pack) {
         this.redTeam = redTeam;

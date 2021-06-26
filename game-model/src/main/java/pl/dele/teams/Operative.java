@@ -9,5 +9,5 @@ public class Operative extends Player{
         super(name);
     }
 
-    Operative() { super(); }
+    public Operative() { super(); }
 }
