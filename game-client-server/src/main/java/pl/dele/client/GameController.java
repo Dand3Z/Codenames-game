@@ -117,7 +117,15 @@ public class GameController extends Thread{
 
                     // paint card if it is discovered or you are a spymaster
                     boolean isUncovered = uncoveredCards.contains(new Card(phrase)) ? true : false;
-                    if(type == PlayerType.SPYMASTER || isUncovered){
+                    if (type == PlayerType.SPYMASTER && isUncovered){
+                        CardRole cardRole = cardRoleMap.get(new Card(phrase));
+                        if (cardRole == null) {
+                            log.error("NULL cardRole!");
+                            continue;
+                        }
+                        cardTile.setBackground(Color.BLACK); // PLACEHOLDER
+                    }
+                    else if(type == PlayerType.SPYMASTER || isUncovered){
                         CardRole cardRole = cardRoleMap.get(new Card(phrase));
                         if (cardRole == null) {
                             log.error("NULL cardRole!");
