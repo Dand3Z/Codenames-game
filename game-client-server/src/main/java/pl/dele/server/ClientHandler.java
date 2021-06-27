@@ -190,9 +190,15 @@ public class ClientHandler extends Thread {
         StringBuilder uncover = new StringBuilder();
         uncover.append(ServerResponse.UNCOVER_CARD).append(System.lineSeparator())
                .append(phrase).append(System.lineSeparator())
-               .append(gameEngine.uncoverCard(phrase)).append(System.lineSeparator())
-               .append(gameEngine.isCorrectAnswer(phrase)).append(System.lineSeparator());
+               .append(gameEngine.uncoverCard(phrase)).append(System.lineSeparator());
+               //.append(gameEngine.isCorrectAnswer(phrase)).append(System.lineSeparator());
         sendCommandToAll(uncover);
+
+        if (!gameEngine.isCorrectAnswer(phrase)) {
+            log.info("Execute NEXT_TURN");
+            gameEngine.nextTurn();
+            whoseTurnIsNow();
+        }
 
         // UNCOVERED\nPHRASE\nCardRole\nBoolean - isCorrect\n
 

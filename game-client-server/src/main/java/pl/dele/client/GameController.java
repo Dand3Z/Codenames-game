@@ -217,7 +217,6 @@ public class GameController extends Thread{
         String[] msg = instruction.split(System.lineSeparator());
         String phrase = msg[0];
         CardRole cardRole = getCardRole(msg[1]);
-        boolean isCorrect = Boolean.parseBoolean(msg[2]);
 
         Card uncoveredCard = new Card(phrase);
         if (uncoveredCards.contains(uncoveredCard)) return;
