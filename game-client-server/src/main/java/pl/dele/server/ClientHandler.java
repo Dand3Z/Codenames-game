@@ -6,6 +6,7 @@ import pl.dele.GameEngine;
 import pl.dele.ServerRequest;
 import pl.dele.ServerResponse;
 import pl.dele.cards.Card;
+import pl.dele.cards.CardRole;
 import pl.dele.teams.Operative;
 import pl.dele.teams.PlayerType;
 import pl.dele.teams.Spymaster;
@@ -200,8 +201,15 @@ public class ClientHandler extends Thread {
             whoseTurnIsNow();
         }
 
-        // UNCOVERED\nPHRASE\nCardRole\nBoolean - isCorrect\n
+        sendLeftCardsToGuess();
+    }
 
+    private synchronized void sendLeftCardsToGuess(){
+        StringBuilder leftCards = new StringBuilder();
+        leftCards.append(ServerResponse.LEFT_TO_GUESS).append(System.lineSeparator())
+                .append(gameEngine.howManyCardsLeft(CardRole.RED_TEAM)).append(System.lineSeparator())
+                .append(gameEngine.howManyCardsLeft(CardRole.BLUE_TEAM)).append(System.lineSeparator());
+        sendCommandToAll(leftCards);
     }
 
     private synchronized void sendCommandToAll(StringBuilder sb){

@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -62,6 +63,12 @@ public class GameController extends Thread{
 
     @FXML
     private Button giveClueButton;
+
+    @FXML
+    private Label redCardsLeftLb;
+
+    @FXML
+    private Label blueCardsLeftLb;
 
     @FXML
     void initialize(){
@@ -186,7 +193,11 @@ public class GameController extends Thread{
                         printClueHandling(sb.toString());
                     case ServerResponse.UNCOVER_CARD:
                         log.debug("Execute command: {}", ServerResponse.UNCOVER_CARD);
-                        uncoverCard(sb.toString());
+                        uncoverCardHandling(sb.toString());
+                        break;
+                    case ServerResponse.LEFT_TO_GUESS:
+                        log.info("Execute command: {}", ServerResponse.LEFT_TO_GUESS);
+                        leftToGuessHandling(sb.toString());
                         break;
                 }
                 command = null;
@@ -221,7 +232,7 @@ public class GameController extends Thread{
         });
     }
 
-    private void uncoverCard(String instruction) {
+    private void uncoverCardHandling(String instruction) {
         String[] msg = instruction.split(System.lineSeparator());
         String phrase = msg[0];
         CardRole cardRole = getCardRole(msg[1]);
@@ -268,6 +279,17 @@ public class GameController extends Thread{
         });
     }
 
+    private void leftToGuessHandling(String instruction) {
+        String[] msg = instruction.split(System.lineSeparator());
+        //int redCardsLeft = Integer.parseInt(msg[0]);
+        //int blueCardsLeft = Integer.parseInt(msg[1]);
+
+        Platform.runLater(() -> {
+            redCardsLeftLb.setText(msg[0]);
+            blueCardsLeftLb.setText(msg[1]);
+            refreshGui();
+        });
+    }
 
     private void implButtons() {
         startGameButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {

@@ -111,7 +111,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label alignment="TOP_RIGHT" text="9">
+                  <Label fx:id="redCardsLeftLb" alignment="TOP_RIGHT" text="9">
                      <font>
                         <Font size="38.0" />
                      </font>
@@ -125,7 +125,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label alignment="BOTTOM_RIGHT" text="8">
+                  <Label fx:id="blueCardsLeftLb" alignment="BOTTOM_RIGHT" text="8">
                      <font>
                         <Font size="38.0" />
                      </font>
