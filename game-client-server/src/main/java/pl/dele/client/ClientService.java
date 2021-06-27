@@ -48,6 +48,15 @@ final class ClientService {
         return sb.toString().trim();
     }
 
+    static String sendClue(String clue, int index){
+        StringBuilder sb = new StringBuilder();
+        sb.append(ServerRequest.SEND_CLUE).append(System.lineSeparator())
+          .append(clue).append(System.lineSeparator())
+          .append(index).append(System.lineSeparator());
+
+        return sb.toString().trim();
+    }
+
     static TeamColor getTeamColor(String teamString){
         switch (teamString){
             case "RED_TEAM":

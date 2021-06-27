@@ -166,6 +166,9 @@ public class GameController extends Thread{
                         log.debug("Execute command: {}", ServerResponse.CHANGE_TURN);
                         whoseTurnHandling(sb.toString());
                         break;
+                    case ServerResponse.SEND_CLUE:
+                        log.debug("Execute command: {}", ServerResponse.SEND_CLUE);
+                        printClue(sb.toString());
                     case ServerResponse.PHRASE_INTERPRETATION:
                         log.debug("Execute command: {}", ServerResponse.PHRASE_INTERPRETATION);
                         interpretationHandling(sb.toString());
@@ -228,6 +231,16 @@ public class GameController extends Thread{
         });
     }
 
+    private void printClue(String instruction){
+        String[] msg = instruction.split(System.lineSeparator());
+
+        Platform.runLater(() -> {
+            clueField.setText(msg[0]);
+            cbGoals.getSelectionModel().select(Integer.parseInt(msg[1]));
+            refreshGui();
+        });
+    }
+
 
     private void implButtons() {
         startGameButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -239,6 +252,11 @@ public class GameController extends Thread{
         });
         passButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             if (isMyTurn) writer.println(nextTurn());
+        });
+        giveClueButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            // send clue
+            writer.println(nextTurn());
+            writer.println(sendClue(clueField.getText(), Integer.parseInt((String) cbGoals.getSelectionModel().getSelectedItem())));
         });
         joinRedOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinRedOperative");

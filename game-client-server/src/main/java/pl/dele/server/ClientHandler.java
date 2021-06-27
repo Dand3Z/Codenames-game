@@ -48,9 +48,9 @@ public class ClientHandler extends Thread {
                 while ((msg = reader.readLine().trim()) != null){
                     switch (msg){
                         case ServerRequest.JOIN:
+                            log.info("Execute JOIN");
                             team = getTeamColor(reader.readLine().trim());
                             type = getPlayerType(reader.readLine().trim());
-                            log.info("Execute JOIN");
                             log.info("teamColor: {}" ,team.toString());
                             log.info("playerType: {}", type.toString());
                             joinTheTeam(team, type);
@@ -61,14 +61,21 @@ public class ClientHandler extends Thread {
                             // card analysis
                             break;
                         case ServerRequest.INIT:
-                            // initial 5x5
                             log.info("Execute INIT");
                             initialCards();
                             break;
                         case ServerRequest.NEXT_TURN:
+                            log.info("Execute NEXT_TURN");
                             gameEngine.nextTurn();
                             whoseTurnIsNow();
                             break;
+                        case ServerRequest.SEND_CLUE:
+                            log.info("Execute SEND_CLUE");
+                            String clue = reader.readLine().trim();
+                            int index = Integer.parseInt(reader.readLine().trim());
+                            sendClue(clue, index);
+                            break;
+
                         default:
                             // other commands ...
                             break;
@@ -160,6 +167,14 @@ public class ClientHandler extends Thread {
                  .append(gameEngine.whoseTeamGuessing()).append(System.lineSeparator())
                  .append(gameEngine.whoseRoleHasTurn()).append(System.lineSeparator());
         sendCommandToAll(whoseTurn);
+    }
+
+    private synchronized void sendClue(String tip, int index){
+        StringBuilder clue = new StringBuilder();
+        clue.append(ServerResponse.SEND_CLUE).append(System.lineSeparator())
+            .append(tip).append(System.lineSeparator())
+            .append(index).append(System.lineSeparator());
+        sendCommandToAll(clue);
     }
 
     private synchronized void sendCommandToAll(StringBuilder sb){
