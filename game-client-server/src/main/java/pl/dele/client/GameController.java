@@ -20,10 +20,8 @@ import pl.dele.cards.CardRole;
 import pl.dele.teams.PlayerType;
 import pl.dele.teams.TeamColor;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.util.*;
 
@@ -310,28 +308,56 @@ public class GameController extends Thread{
         joinRedOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinRedOperative");
             writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.OPERATIVE));
-            joinRedOperative.setTextFill(TEAM_ROLE_SELECTED);
+            //joinRedOperative.setTextFill(TEAM_ROLE_SELECTED);
+            try {
+                joinRedOperative.getStylesheets()
+                        .add((new File("game-client-server/src/main/resources/fxml/redButton.css"))
+                                .toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
             disableJoinButtons();
             refreshGui();
         });
         joinRedSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinRedSpymaster");
             writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.SPYMASTER));
-            joinRedSpymaster.setTextFill(TEAM_ROLE_SELECTED);
+            //joinRedSpymaster.setTextFill(TEAM_ROLE_SELECTED);
+            try {
+                joinRedSpymaster.getStylesheets()
+                        .add((new File("game-client-server/src/main/resources/fxml/redButton.css"))
+                                .toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
             disableJoinButtons();
             refreshGui();
         });
         joinBlueOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinBlueOperative");
             writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.OPERATIVE));
-            joinBlueOperative.setTextFill(TEAM_ROLE_SELECTED);
+            //joinBlueOperative.setTextFill(TEAM_ROLE_SELECTED);
+            try {
+                joinBlueOperative.getStylesheets()
+                        .add((new File("game-client-server/src/main/resources/fxml/blueButton.css"))
+                                .toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
             disableJoinButtons();
             refreshGui();
         });
         joinBlueSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinBlueSpymaster");
             writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.SPYMASTER));
-            joinBlueSpymaster.setTextFill(TEAM_ROLE_SELECTED);
+            //joinBlueSpymaster.setTextFill(TEAM_ROLE_SELECTED);
+            try {
+                joinBlueSpymaster.getStylesheets()
+                        .add((new File("game-client-server/src/main/resources/fxml/blueButton.css"))
+                                .toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
             disableJoinButtons();
             refreshGui();
         });
