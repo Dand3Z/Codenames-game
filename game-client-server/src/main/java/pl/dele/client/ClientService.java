@@ -15,7 +15,7 @@ final class ClientService {
             case BLUE_TEAM:
                 return Color.LIGHTBLUE;
             case NEUTRAL:
-                return Color.WHITESMOKE;
+                return Color.BISQUE;
             default:
                 return Color.GRAY;
         }

@@ -231,5 +231,4 @@ public class ClientHandler extends Thread {
     // join to team
     // phrase of card interpretation
     // init 5x5 field
-
 }
