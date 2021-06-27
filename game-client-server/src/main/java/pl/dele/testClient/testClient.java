@@ -70,8 +70,8 @@ public class testClient extends Thread {
                         log.debug(ServerResponse.JOIN_TEAM);
                         joinHandling(sb.toString());
                         break;
-                    case ServerResponse.PHRASE_INTERPRETATION:
-                        log.debug(ServerResponse.PHRASE_INTERPRETATION);
+                    case ServerResponse.UNCOVER_CARD:
+                        log.debug(ServerResponse.UNCOVER_CARD);
                         interpretationHandling(sb.toString());
                         break;
                 }

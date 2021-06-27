@@ -57,6 +57,14 @@ final class ClientService {
         return sb.toString().trim();
     }
 
+    static String cardClicked(String phrase) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ServerRequest.CHECK_CARD).append(System.lineSeparator())
+          .append(phrase).append(System.lineSeparator());
+
+        return sb.toString().trim();
+    }
+
     static TeamColor getTeamColor(String teamString){
         switch (teamString){
             case "RED_TEAM":
@@ -72,6 +80,19 @@ final class ClientService {
                 return PlayerType.SPYMASTER;
             default:
                 return PlayerType.OPERATIVE;
+        }
+    }
+
+    static CardRole getCardRole(String roleString){
+        switch (roleString){
+            case "RED_TEAM":
+                return CardRole.RED_TEAM;
+            case "BLUE_TEAM":
+                return CardRole.BLUE_TEAM;
+            case "BLACK_CARD":
+                return CardRole.BLACK_CARD;
+            default:
+                return CardRole.NEUTRAL;
         }
     }
 

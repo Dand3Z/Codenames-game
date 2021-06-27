@@ -8,14 +8,19 @@ import pl.dele.teams.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameEngine {
+
+    private final PropertyChangeSupport observerSupport;
 
     private final Pack pack;
     private final Team redTeam;
     private final Team blueTeam;
-    private final PropertyChangeSupport observerSupport;
+    private final Map<Card, CardRole> uncoveredCards;
     // left to guess ..... (map)
+    // amount of - how many of each cardRole is
 
     private TeamColor guessingTeam; // whose turn is now
     private PlayerType guessingRole; // whose role has turn
@@ -26,6 +31,7 @@ public class GameEngine {
         this.pack = pack;
         this.guessingTeam = pack.whichTeamStarts();
         this.guessingRole = PlayerType.SPYMASTER;  // spymaster always starts
+        this.uncoveredCards = new HashMap<>();
 
         observerSupport = new PropertyChangeSupport(this);
     }
@@ -39,8 +45,20 @@ public class GameEngine {
     }
 
     private CardRole whatRoleIsIt(String phrase){
-        if (phrase == null || !pack.containsCard(phrase)) throw new IllegalArgumentException("Invalid argument!");
+        if (phrase == null || !pack.containsCard(phrase)) throw new IllegalArgumentException("Card not in the pack or null");
         return pack.getCardRole(new Card(phrase));
+    }
+
+    public CardRole uncoverCard(String phrase){
+        if (phrase == null || !pack.containsCard(phrase)) throw new IllegalArgumentException("Card not in the pack or null");
+
+        Card uncoveredCard = new Card(phrase);
+        if (uncoveredCards.containsKey(uncoveredCard)) throw new IllegalArgumentException("Card already is uncovered");
+
+        CardRole cardRole = whatRoleIsIt(phrase);
+        uncoveredCards.put(uncoveredCard, cardRole);
+
+        return cardRole;
     }
 
     public boolean isCorrectAnswer(String phrase){
@@ -76,7 +94,13 @@ public class GameEngine {
 
     private int amountOf(CardRole cardRole) { return pack.amountOf(cardRole); }
 
-    // private int leftToGuess() {}
+    public int howManyCardsLeft(CardRole checkingRole) {
+        int uncovered = 0;
+        for (CardRole role : uncoveredCards.values()){
+            if (role == checkingRole) ++uncovered;
+        }
+        return amountOf(checkingRole) - uncovered;
+    }
 
     private void gameover() {}
 

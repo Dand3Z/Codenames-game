@@ -76,7 +76,7 @@ public class GameController extends Thread{
     private Socket socket;
     private final List<Card> cards;
     private Map<Card, CardRole> cardRoleMap;
-    private Map<Card, Boolean> isCardDiscovered;
+    private Set<Card> uncoveredCards;
     private BufferedReader reader;
     private PrintWriter writer;
 
@@ -87,7 +87,7 @@ public class GameController extends Thread{
     public GameController() {
         cards = new ArrayList<>();
         cardRoleMap = new LinkedHashMap<>();
-        isCardDiscovered = new HashMap<>();
+        uncoveredCards = new HashSet<>();
     }
 
     private void refreshGui(){
@@ -107,10 +107,17 @@ public class GameController extends Thread{
                     phrase = cards.get(current).getPhrase();
                     cardTile.addPhrase(phrase);
 
+                    final String phrase1 = phrase;
+                    cardTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        // zabezpiecz przed ponownym odkryciem karty!!!!!
+                        if (isMyTurn && type == PlayerType.OPERATIVE){
+                            writer.println(cardClicked(phrase1));
+                        }
+                    });
+
                     // paint card if it is discovered or you are a spymaster
-                    boolean isDiscovered = isCardDiscovered.get(new Card(phrase)) != null
-                                ? isCardDiscovered.get(new Card(phrase)) : false;
-                    if(type == PlayerType.SPYMASTER || isDiscovered){
+                    boolean isUncovered = uncoveredCards.contains(new Card(phrase)) ? true : false;
+                    if(type == PlayerType.SPYMASTER || isUncovered){
                         CardRole cardRole = cardRoleMap.get(new Card(phrase));
                         if (cardRole == null) {
                             log.error("NULL cardRole!");
@@ -168,17 +175,16 @@ public class GameController extends Thread{
                         break;
                     case ServerResponse.SEND_CLUE:
                         log.debug("Execute command: {}", ServerResponse.SEND_CLUE);
-                        printClue(sb.toString());
-                    case ServerResponse.PHRASE_INTERPRETATION:
-                        log.debug("Execute command: {}", ServerResponse.PHRASE_INTERPRETATION);
-                        interpretationHandling(sb.toString());
+                        printClueHandling(sb.toString());
+                    case ServerResponse.UNCOVER_CARD:
+                        log.debug("Execute command: {}", ServerResponse.UNCOVER_CARD);
+                        uncoverCard(sb.toString());
                         break;
                 }
                 command = null;
             }
         }
         catch (IOException e) { e.getMessage(); }
-
     }
 
     // == command handling ==
@@ -207,8 +213,22 @@ public class GameController extends Thread{
         });
     }
 
-    private void interpretationHandling(String instruction) {
+    private void uncoverCard(String instruction) {
+        String[] msg = instruction.split(System.lineSeparator());
+        String phrase = msg[0];
+        CardRole cardRole = getCardRole(msg[1]);
+        boolean isCorrect = Boolean.parseBoolean(msg[2]);
 
+        Card uncoveredCard = new Card(phrase);
+        if (uncoveredCards.contains(uncoveredCard)) return;
+        uncoveredCards.add(uncoveredCard);
+        cardRoleMap.put(uncoveredCard, cardRole);
+
+        //if (!isCorrect) writer.println(nextTurn()); // here problem
+        // PHRASE\nCardRole\nBoolean - isCorrect\n
+        Platform.runLater(() -> {
+            refreshGui();
+        });
     }
 
     private void joinHandling(String instruction) {
@@ -231,7 +251,7 @@ public class GameController extends Thread{
         });
     }
 
-    private void printClue(String instruction){
+    private void printClueHandling(String instruction){
         String[] msg = instruction.split(System.lineSeparator());
 
         Platform.runLater(() -> {

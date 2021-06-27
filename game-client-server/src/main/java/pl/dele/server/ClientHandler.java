@@ -6,7 +6,10 @@ import pl.dele.GameEngine;
 import pl.dele.ServerRequest;
 import pl.dele.ServerResponse;
 import pl.dele.cards.Card;
-import pl.dele.teams.*;
+import pl.dele.teams.Operative;
+import pl.dele.teams.PlayerType;
+import pl.dele.teams.Spymaster;
+import pl.dele.teams.TeamColor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +18,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
-import static pl.dele.server.ServerService.*;
+import static pl.dele.server.ServerService.getPlayerType;
+import static pl.dele.server.ServerService.getTeamColor;
 
 public class ClientHandler extends Thread {
 
@@ -75,6 +79,11 @@ public class ClientHandler extends Thread {
                             int index = Integer.parseInt(reader.readLine().trim());
                             sendClue(clue, index);
                             break;
+                        case ServerRequest.CHECK_CARD:
+                            log.info("Execute CHECK_CARD");
+                            String phrase = reader.readLine().trim();
+                            // send card Role and mark that card as discovered !!!!!!!
+                            uncoverCard(phrase);
 
                         default:
                             // other commands ...
@@ -175,6 +184,18 @@ public class ClientHandler extends Thread {
             .append(tip).append(System.lineSeparator())
             .append(index).append(System.lineSeparator());
         sendCommandToAll(clue);
+    }
+
+    private synchronized void uncoverCard(String phrase) {
+        StringBuilder uncover = new StringBuilder();
+        uncover.append(ServerResponse.UNCOVER_CARD).append(System.lineSeparator())
+               .append(phrase).append(System.lineSeparator())
+               .append(gameEngine.uncoverCard(phrase)).append(System.lineSeparator())
+               .append(gameEngine.isCorrectAnswer(phrase)).append(System.lineSeparator());
+        sendCommandToAll(uncover);
+
+        // UNCOVERED\nPHRASE\nCardRole\nBoolean - isCorrect\n
+
     }
 
     private synchronized void sendCommandToAll(StringBuilder sb){
