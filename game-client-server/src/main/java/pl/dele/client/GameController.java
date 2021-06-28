@@ -318,7 +318,7 @@ public class GameController extends Thread{
             refreshGui();
         });
         passButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (isMyTurn) writer.println(nextTurn());
+            if (isMyTurn && type == PlayerType.OPERATIVE) writer.println(nextTurn());
         });
         giveClueButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             // send clue
