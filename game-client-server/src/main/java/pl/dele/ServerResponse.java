@@ -10,4 +10,5 @@ public final class ServerResponse {
     public static final String UNCOVER_CARD = "UNCOVER_CARD";
     public static final String LEFT_TO_GUESS = "LEFT_TO_GUESS";
     public static final String GAME_OVER = "GAME_OVER";
+    public static final String GAME_WON = "GAME_WON";
 }

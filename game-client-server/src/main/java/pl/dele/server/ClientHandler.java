@@ -7,10 +7,7 @@ import pl.dele.ServerRequest;
 import pl.dele.ServerResponse;
 import pl.dele.cards.Card;
 import pl.dele.cards.CardRole;
-import pl.dele.teams.Operative;
-import pl.dele.teams.PlayerType;
-import pl.dele.teams.Spymaster;
-import pl.dele.teams.TeamColor;
+import pl.dele.teams.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -200,6 +197,8 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
                //.append(gameEngine.isCorrectAnswer(phrase)).append(System.lineSeparator());
         sendCommandToAll(uncover);
 
+        if (gameEngine.isGameWon()) gameWon();
+
         if (!gameEngine.isCorrectAnswer(phrase)) {
             log.info("Execute NEXT_TURN");
             gameEngine.nextTurn();
@@ -217,12 +216,19 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
         sendCommandToAll(leftCards);
     }
 
-    private synchronized void gameOverByBlackCard(TeamColor loser, TeamColor winner){
+    private synchronized void gameOverByBlackCard(TeamColor winner){
         StringBuilder gameOver = new StringBuilder();
         gameOver.append(ServerResponse.GAME_OVER).append(System.lineSeparator())
-                .append(loser).append(System.lineSeparator())
                 .append(winner).append(System.lineSeparator());
         sendCommandToAll(gameOver);
+    }
+
+    private synchronized void gameWon() {
+        TeamColor winner = gameEngine.whoseTeamGuessing();
+        StringBuilder gameWon = new StringBuilder();
+        gameWon.append(ServerResponse.GAME_WON).append(System.lineSeparator())
+               .append(winner).append(System.lineSeparator());
+        sendCommandToAll(gameWon);
     }
 
     private synchronized void sendCommandToAll(StringBuilder sb){
@@ -246,10 +252,8 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
         String propertyName = evt.getPropertyName();
         switch (propertyName){
             case GameEngine.GAME_OVER:
-                // gameOverHandling()
-                TeamColor loser = (TeamColor) evt.getOldValue();
                 TeamColor winner = (TeamColor) evt.getNewValue();
-                gameOverByBlackCard(loser, winner);
+                gameOverByBlackCard(winner);
                 exit = true;
                 break;
             default:

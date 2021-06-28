@@ -165,7 +165,7 @@ public class GameController extends Thread{
     @Override
     public void run() {
         try {
-            while (true){
+            while (!isGameOver){
                 String command;
                 while ((command = reader.readLine()) == null);
                 log.debug("read command: {}", command);
@@ -209,6 +209,9 @@ public class GameController extends Thread{
                         log.info("Execute command: {}", ServerResponse.GAME_OVER);
                         showWinnerHandling(sb.toString()); // *************
                         break;
+                    case ServerResponse.GAME_WON:
+                        log.info("Execute command: {}", ServerResponse.GAME_WON);
+                        showWinnerHandling(sb.toString());
                 }
                 command = null;
             }
@@ -252,8 +255,6 @@ public class GameController extends Thread{
         uncoveredCards.add(uncoveredCard);
         cardRoleMap.put(uncoveredCard, cardRole);
 
-        //if (!isCorrect) writer.println(nextTurn()); // here problem
-        // PHRASE\nCardRole\nBoolean - isCorrect\n
         Platform.runLater(() -> {
             refreshGui();
         });
@@ -301,7 +302,7 @@ public class GameController extends Thread{
 
     private void showWinnerHandling(String instruction) {
         String[] msg = instruction.split(System.lineSeparator()); // loser, winner
-        CardRole role = mapTeamColorToCardRole(getTeamColor(msg[1]));
+        CardRole role = mapTeamColorToCardRole(getTeamColor(msg[0]));
 
         cardRoleMap.keySet().forEach((k) -> cardRoleMap.replace(k, role));
         isGameOver = true;
