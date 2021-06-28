@@ -73,7 +73,7 @@ public class GameEngine {
                 case NEUTRAL:
                     return false;
                 case BLACK_CARD:
-                    gameover();
+                    gameOver();
                     return false;
             }
         }
@@ -85,7 +85,7 @@ public class GameEngine {
                 case NEUTRAL:
                     return false;
                 case BLACK_CARD:
-                    gameover();
+                    gameOver();
                     return false;
             }
         }
@@ -102,11 +102,25 @@ public class GameEngine {
         return amountOf(checkingRole) - uncovered;
     }
 
-    private void gameover() {}
+    private TeamColor gameOver() {
+        TeamColor winner = (guessingTeam == TeamColor.BLUE_TEAM) ? TeamColor.RED_TEAM : TeamColor.BLUE_TEAM;
+        return winner;
+    }
 
     public void pass(){}
 
-    // public boolean isGameWon() {}
+    public boolean isGameWon() {
+        return howManyCardsLeft(mapTeamColorToCardRole(guessingTeam)) <= 0;
+    }
+
+    private CardRole mapTeamColorToCardRole(TeamColor teamColor){
+        switch (teamColor){
+            case BLUE_TEAM:
+                return CardRole.BLUE_TEAM;
+            default:
+                return CardRole.RED_TEAM;
+        }
+    }
 
     @Deprecated
     private void changeGuessingTeam(){
