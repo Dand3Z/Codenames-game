@@ -9,4 +9,5 @@ public final class ServerResponse {
     public static final String SEND_CLUE = "SEND_CLUE";
     public static final String UNCOVER_CARD = "UNCOVER_CARD";
     public static final String LEFT_TO_GUESS = "LEFT_TO_GUESS";
+    public static final String GAME_OVER = "GAME_OVER";
 }

@@ -12,6 +12,8 @@ import pl.dele.teams.PlayerType;
 import pl.dele.teams.Spymaster;
 import pl.dele.teams.TeamColor;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +24,9 @@ import java.util.List;
 import static pl.dele.server.ServerService.getPlayerType;
 import static pl.dele.server.ServerService.getTeamColor;
 
-public class ClientHandler extends Thread {
+public class ClientHandler extends Thread implements PropertyChangeListener {
+
+    private boolean exit = false;
 
     private static Logger log = LoggerFactory.getLogger(ClientHandler.class);
 
@@ -43,13 +47,14 @@ public class ClientHandler extends Thread {
             this.writer = new PrintWriter(socket.getOutputStream(),true);
         }
         catch (IOException e) { e.getMessage(); }
+        gameEngine.addObserver(GameEngine.GAME_OVER, this);
     }
 
     @Override
     public void run() {
         try{
             String msg;
-            while (true) {
+            while (!exit) {
                 while ((msg = reader.readLine().trim()) != null){
                     switch (msg){
                         case ServerRequest.JOIN:
@@ -212,6 +217,14 @@ public class ClientHandler extends Thread {
         sendCommandToAll(leftCards);
     }
 
+    private synchronized void gameOverByBlackCard(TeamColor loser, TeamColor winner){
+        StringBuilder gameOver = new StringBuilder();
+        gameOver.append(ServerResponse.GAME_OVER).append(System.lineSeparator())
+                .append(loser).append(System.lineSeparator())
+                .append(winner).append(System.lineSeparator());
+        sendCommandToAll(gameOver);
+    }
+
     private synchronized void sendCommandToAll(StringBuilder sb){
         sb.append("END").append(System.lineSeparator());
         String command = sb.toString();
@@ -226,6 +239,22 @@ public class ClientHandler extends Thread {
         String command = sb.toString();
         log.debug("Send response to {}", getName());
         writer.println(command.trim());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propertyName = evt.getPropertyName();
+        switch (propertyName){
+            case GameEngine.GAME_OVER:
+                // gameOverHandling()
+                TeamColor loser = (TeamColor) evt.getOldValue();
+                TeamColor winner = (TeamColor) evt.getNewValue();
+                gameOverByBlackCard(loser, winner);
+                exit = true;
+                break;
+            default:
+                break;
+        }
     }
 
     // join to team

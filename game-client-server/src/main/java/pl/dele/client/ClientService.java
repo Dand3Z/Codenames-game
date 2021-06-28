@@ -96,5 +96,13 @@ final class ClientService {
         }
     }
 
+    static CardRole mapTeamColorToCardRole(TeamColor teamColor){
+        switch (teamColor){
+            case BLUE_TEAM:
+                return CardRole.BLUE_TEAM;
+            default:
+                return CardRole.RED_TEAM;
+        }
+    }
 
 }

@@ -76,7 +76,6 @@ public class GameController extends Thread{
     }
 
     private static Logger log = LoggerFactory.getLogger(Client.class);
-    public static final Color TEAM_ROLE_SELECTED = Color.CHOCOLATE;
 
     private Socket socket;
     private final List<Card> cards;
@@ -88,6 +87,7 @@ public class GameController extends Thread{
     private TeamColor team;
     private PlayerType type;
     private boolean isMyTurn;
+    private boolean isGameOver = false;
 
     public GameController() {
         cards = new ArrayList<>();
@@ -115,14 +115,22 @@ public class GameController extends Thread{
                     final String phrase1 = phrase;
                     cardTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                         // zabezpiecz przed ponownym odkryciem karty!!!!!
-                        if (isMyTurn && type == PlayerType.OPERATIVE){
+                        if (isMyTurn && type == PlayerType.OPERATIVE && !uncoveredCards.contains(new Card(phrase1))){
                             writer.println(cardClicked(phrase1));
                         }
                     });
 
-                    // paint card if it is discovered or you are a spymaster
+                    // paint cards
                     boolean isUncovered = uncoveredCards.contains(new Card(phrase)) ? true : false;
-                    if (type == PlayerType.SPYMASTER && isUncovered){
+                    if (isGameOver) {
+                        CardRole cardRole = cardRoleMap.get(new Card(phrase));
+                        if (cardRole == null) {
+                            log.error("NULL cardRole!");
+                            continue;
+                        }
+                        cardTile.setBackground(getCardColor(cardRole));
+                    }
+                    else if (type == PlayerType.SPYMASTER && isUncovered){
                         CardRole cardRole = cardRoleMap.get(new Card(phrase));
                         if (cardRole == null) {
                             log.error("NULL cardRole!");
@@ -196,6 +204,10 @@ public class GameController extends Thread{
                     case ServerResponse.LEFT_TO_GUESS:
                         log.info("Execute command: {}", ServerResponse.LEFT_TO_GUESS);
                         leftToGuessHandling(sb.toString());
+                        break;
+                    case ServerResponse.GAME_OVER:
+                        log.info("Execute command: {}", ServerResponse.GAME_OVER);
+                        showWinnerHandling(sb.toString()); // *************
                         break;
                 }
                 command = null;
@@ -279,14 +291,21 @@ public class GameController extends Thread{
 
     private void leftToGuessHandling(String instruction) {
         String[] msg = instruction.split(System.lineSeparator());
-        //int redCardsLeft = Integer.parseInt(msg[0]);
-        //int blueCardsLeft = Integer.parseInt(msg[1]);
 
         Platform.runLater(() -> {
             redCardsLeftLb.setText(msg[0]);
             blueCardsLeftLb.setText(msg[1]);
             refreshGui();
         });
+    }
+
+    private void showWinnerHandling(String instruction) {
+        String[] msg = instruction.split(System.lineSeparator()); // loser, winner
+        CardRole role = mapTeamColorToCardRole(getTeamColor(msg[1]));
+
+        cardRoleMap.keySet().forEach((k) -> cardRoleMap.replace(k, role));
+        isGameOver = true;
+        Platform.runLater(() -> refreshGui());
     }
 
     private void implButtons() {

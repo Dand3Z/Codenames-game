@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class GameEngine {
 
+    public static final String GAME_OVER = "GAME_OVER";
     private final PropertyChangeSupport observerSupport;
 
     private final Pack pack;
@@ -102,9 +103,9 @@ public class GameEngine {
         return amountOf(checkingRole) - uncovered;
     }
 
-    private TeamColor gameOver() {
+    public void gameOver() {
         TeamColor winner = (guessingTeam == TeamColor.BLUE_TEAM) ? TeamColor.RED_TEAM : TeamColor.BLUE_TEAM;
-        return winner;
+        notifyObservers(new PropertyChangeEvent(this, GAME_OVER, guessingTeam, winner)); // loser, winner
     }
 
     public void pass(){}
