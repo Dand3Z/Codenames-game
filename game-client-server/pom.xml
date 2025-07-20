@@ -12,7 +12,7 @@
     <artifactId>game-client-server</artifactId>
 
     <properties>
-        <javafx.version>17.0.2</javafx.version>
+        <javafx.version>17.0.13</javafx.version>
         <!--    Setup depending on platform    -->
         <javafx.platform>mac-aarch64</javafx.platform>
     </properties>

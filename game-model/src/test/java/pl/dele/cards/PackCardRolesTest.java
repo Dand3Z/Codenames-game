@@ -23,7 +23,6 @@ public class PackCardRolesTest {
     @Test
     void shouldCreateRoleMap(){
         for (Card card : cardList){
-            // all card has CardRole
             Assertions.assertNotNull(pack.getCardRole(card));
         }
     }

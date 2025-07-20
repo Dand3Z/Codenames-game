@@ -17,13 +17,9 @@ public class FileCardsReader implements IGenerateCards {
 
     private static final String DEFAULT_PATH = "src/main/resources/cards.csv";
 
-    // == fields ==
-    // logger
     private static Logger log = LoggerFactory.getLogger(FileCardsReader.class);
-    // path to the cards file
     private final String PATH;
 
-    // == constructors ==
     public FileCardsReader(){
         this(DEFAULT_PATH);
     }
@@ -33,7 +29,6 @@ public class FileCardsReader implements IGenerateCards {
         else this.PATH = PATH;
     }
 
-    // == methods ==
     @Override
     public ArrayList<Card> generatePack(int amount) {
         if (amount <= 0) {
@@ -41,7 +36,6 @@ public class FileCardsReader implements IGenerateCards {
             throw new IllegalArgumentException();
         }
 
-        // load cards
         List<Card> allCards = readCards();
 
         if (amount > allCards.size()){
@@ -66,7 +60,6 @@ public class FileCardsReader implements IGenerateCards {
     private ArrayList<Card> readCards(){
         ArrayList<Card> allCards = new ArrayList<>();
 
-        // try to create scanner
         Scanner scanner;
         try {
             scanner = new Scanner(new File(PATH));

@@ -82,13 +82,11 @@ public class testClient extends Thread {
         }
         catch (IOException e) { e.getMessage(); }}
 
-        // == command handling ==
         private void initialHandling(String instruction) {
             String[] phrases = instruction.split(System.lineSeparator());
             for(String phrase: phrases){
                 cards.add(new Card(phrase));
             }
-            // we got list of cards, now display it on board
         }
 
         private void interpretationHandling(String s) {

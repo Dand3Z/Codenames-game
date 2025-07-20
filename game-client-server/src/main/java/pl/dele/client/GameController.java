@@ -21,7 +21,6 @@ import pl.dele.teams.PlayerType;
 import pl.dele.teams.TeamColor;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.util.*;
 
@@ -114,13 +113,11 @@ public class GameController extends Thread{
 
                     final String phrase1 = phrase;
                     cardTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                        // zabezpiecz przed ponownym odkryciem karty!!!!!
                         if (isMyTurn && type == PlayerType.OPERATIVE && !uncoveredCards.contains(new Card(phrase1))){
                             writer.println(cardClicked(phrase1));
                         }
                     });
 
-                    // paint cards
                     boolean isUncovered = uncoveredCards.contains(new Card(phrase)) ? true : false;
                     if (isGameOver) {
                         CardRole cardRole = cardRoleMap.get(new Card(phrase));
@@ -136,7 +133,7 @@ public class GameController extends Thread{
                             log.error("NULL cardRole!");
                             continue;
                         }
-                        cardTile.setBackground(Color.BLACK); // PLACEHOLDER
+                        cardTile.setBackground(Color.BLACK);
                     }
                     else if(type == PlayerType.SPYMASTER || isUncovered){
                         CardRole cardRole = cardRoleMap.get(new Card(phrase));
@@ -207,7 +204,7 @@ public class GameController extends Thread{
                         break;
                     case ServerResponse.GAME_OVER:
                         log.info("Execute command: {}", ServerResponse.GAME_OVER);
-                        showWinnerHandling(sb.toString()); // *************
+                        showWinnerHandling(sb.toString());
                         break;
                     case ServerResponse.GAME_WON:
                         log.info("Execute command: {}", ServerResponse.GAME_WON);
@@ -219,7 +216,6 @@ public class GameController extends Thread{
         catch (IOException e) { e.getMessage(); }
     }
 
-    // == command handling ==
     private void initialHandling(String instruction) {
         cards.clear();
         String[] phrases = instruction.split(System.lineSeparator());
@@ -227,7 +223,6 @@ public class GameController extends Thread{
             if(phrase.equalsIgnoreCase("END")) break;
             cards.add(new Card(phrase));
         }
-        // we got list of cards, now display it on board
         Platform.runLater(() -> {
             refreshGui();
         });
@@ -239,7 +234,6 @@ public class GameController extends Thread{
             cardRoleMap.put(cards.get(i), stringToCardRole(colors[i]));
         }
 
-        // temp
         Platform.runLater(() -> {
             refreshGui();
         });
@@ -301,7 +295,7 @@ public class GameController extends Thread{
     }
 
     private void showWinnerHandling(String instruction) {
-        String[] msg = instruction.split(System.lineSeparator()); // loser, winner
+        String[] msg = instruction.split(System.lineSeparator());
         CardRole role = mapTeamColorToCardRole(getTeamColor(msg[0]));
 
         cardRoleMap.keySet().forEach((k) -> cardRoleMap.replace(k, role));
@@ -313,7 +307,6 @@ public class GameController extends Thread{
         startGameButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             writer.println(ServerRequest.INIT);
         });
-        // impl for testing -> change it in final version
         resetButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             refreshGui();
         });
@@ -321,63 +314,38 @@ public class GameController extends Thread{
             if (isMyTurn && type == PlayerType.OPERATIVE) writer.println(nextTurn());
         });
         giveClueButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            // send clue
             writer.println(nextTurn());
             writer.println(sendClue(clueField.getText(), Integer.parseInt((String) cbGoals.getSelectionModel().getSelectedItem())));
         });
         joinRedOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinRedOperative");
             writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.OPERATIVE));
-            //joinRedOperative.setTextFill(TEAM_ROLE_SELECTED);
-            try {
-                joinRedOperative.getStylesheets()
-                        .add((new File("game-client-server/src/main/resources/fxml/redButton.css"))
-                                .toURI().toURL().toExternalForm());
-            } catch (MalformedURLException ex) {
-                ex.printStackTrace();
-            }
+            joinRedOperative.getStylesheets()
+                    .add(Objects.requireNonNull(getClass().getResource("/fxml/redButton.css")).toExternalForm());
             disableJoinButtons();
             refreshGui();
         });
         joinRedSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinRedSpymaster");
             writer.println(joinToTeam(TeamColor.RED_TEAM, PlayerType.SPYMASTER));
-            //joinRedSpymaster.setTextFill(TEAM_ROLE_SELECTED);
-            try {
-                joinRedSpymaster.getStylesheets()
-                        .add((new File("game-client-server/src/main/resources/fxml/redButton.css"))
-                                .toURI().toURL().toExternalForm());
-            } catch (MalformedURLException ex) {
-                ex.printStackTrace();
-            }
+            joinRedSpymaster.getStylesheets()
+                    .add(Objects.requireNonNull(getClass().getResource("/fxml/redButton.css")).toExternalForm());
             disableJoinButtons();
             refreshGui();
         });
         joinBlueOperative.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinBlueOperative");
             writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.OPERATIVE));
-            //joinBlueOperative.setTextFill(TEAM_ROLE_SELECTED);
-            try {
-                joinBlueOperative.getStylesheets()
-                        .add((new File("game-client-server/src/main/resources/fxml/blueButton.css"))
-                                .toURI().toURL().toExternalForm());
-            } catch (MalformedURLException ex) {
-                ex.printStackTrace();
-            }
+            joinBlueOperative.getStylesheets()
+                    .add(Objects.requireNonNull(getClass().getResource("/fxml/blueButton.css")).toExternalForm());
             disableJoinButtons();
             refreshGui();
         });
         joinBlueSpymaster.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             log.debug("Pressed button: joinBlueSpymaster");
             writer.println(joinToTeam(TeamColor.BLUE_TEAM, PlayerType.SPYMASTER));
-            //joinBlueSpymaster.setTextFill(TEAM_ROLE_SELECTED);
-            try {
-                joinBlueSpymaster.getStylesheets()
-                        .add((new File("game-client-server/src/main/resources/fxml/blueButton.css"))
-                                .toURI().toURL().toExternalForm());
-            } catch (MalformedURLException ex) {
-                ex.printStackTrace();
-            }
+            joinBlueSpymaster.getStylesheets()
+                    .add(Objects.requireNonNull(getClass().getResource("/fxml/blueButton.css")).toExternalForm());
             disableJoinButtons();
             refreshGui();
         });

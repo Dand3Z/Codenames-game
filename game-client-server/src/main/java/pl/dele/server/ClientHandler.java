@@ -61,11 +61,9 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
                             log.info("teamColor: {}" ,team.toString());
                             log.info("playerType: {}", type.toString());
                             joinTheTeam(team, type);
-                            // send responsde
                             sendRoleInfo(team, type);
                             break;
                         case "card":
-                            // card analysis
                             break;
                         case ServerRequest.INIT:
                             log.info("Execute INIT");
@@ -85,11 +83,9 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
                         case ServerRequest.CHECK_CARD:
                             log.info("Execute CHECK_CARD");
                             String phrase = reader.readLine().trim();
-                            // send card Role and mark that card as discovered !!!!!!!
                             uncoverCard(phrase);
 
                         default:
-                            // other commands ...
                             break;
                     }
                 }
@@ -109,7 +105,6 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
     private synchronized void initialCards(){
 
         StringBuilder initialBuilder = new StringBuilder();
-        // fill the cards board
         log.debug("Send cards phrases");
         initialBuilder.append(ServerResponse.INITIAL).append(System.lineSeparator());
         for(Card card: gameEngine.getPack().getCards()){
@@ -117,7 +112,6 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
         }
         sendCommandToAll(initialBuilder);
 
-        // color the cards on board
         log.debug("Send cards colors");
         StringBuilder colorBuilder = new StringBuilder();
         colorBuilder.append(ServerResponse.PAINT_CARDS).append(System.lineSeparator());
@@ -125,8 +119,6 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
             colorBuilder.append(gameEngine.getPack().getCardRole(card)).append(System.lineSeparator());
         }
         sendCommandToAll(colorBuilder);
-
-        // send whose team starts the game
         whoseTurnIsNow();
     }
 
@@ -194,7 +186,6 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
         uncover.append(ServerResponse.UNCOVER_CARD).append(System.lineSeparator())
                .append(phrase).append(System.lineSeparator())
                .append(gameEngine.uncoverCard(phrase)).append(System.lineSeparator());
-               //.append(gameEngine.isCorrectAnswer(phrase)).append(System.lineSeparator());
         sendCommandToAll(uncover);
 
         if (gameEngine.isGameWon()) gameWon();
@@ -261,7 +252,4 @@ public class ClientHandler extends Thread implements PropertyChangeListener {
         }
     }
 
-    // join to team
-    // phrase of card interpretation
-    // init 5x5 field
 }

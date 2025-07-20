@@ -1,17 +1,13 @@
 package pl.dele.cards;
 
 public final class Card {
-    // == fields ==
 
-    // text on the card e.g. car, dog etc.
     private final String phrase;
 
-    // == constructors ==
     public Card(String phrase) {
         this.phrase = phrase.toUpperCase();
     }
 
-    // == methods ==
     public String getPhrase() {
         return phrase;
     }
