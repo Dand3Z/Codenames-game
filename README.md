@@ -3,7 +3,7 @@
 Client server game operating on the similar principle as:
 https://codenames.game
 
-The game is made with Java 11 and JavaFX11. 
+The game is made with Java 17 and JavaFX17. 
 The communication between the client and the server is via TCP.
 
 Game rules:
@@ -12,17 +12,27 @@ We also have a board with 5x5 cards. The text on the card is randomly selected f
 Each card has its own color: red, blue - correspond to the team colors, bisque - neutral and gray - the game over card.
 The colors of the cards are seen only by the Spymasters and their task is to give the Operatives such hints so that they choose the correct cards based on them.
 
-The project includes two modules:
+## The project includes two modules:
 - game-model - contains all game logic, rules etc.
 - game-client-server - the part responsible for communication between clients and the server. The client has implemented a GUI created with JavaFX.
 
-To create the project, I used: 
-- Oracle JDK 15.0.2 (compatibility mode with Java 11) 
+## To create the project used: 
+- JDK Amazon Corretto 17.0.13
 - Apache Maven 3.6.3
 - JUnit 5.4.0
 - Logback 1.2.3
-- JavaFX 11-ea+25
-- IntelliJ IDEA ULTIMATE 2019.3
+- JavaFX 17.0.13
+
+## How to start the game:
+1. In the `pom.xml` file of the `game-client-server` module, set the `<javafx.platform>` property according to your operating system.
+2. Build the application using the command:
+   ```bash
+   mvn clean install
+3. Start the server by running the main method of the Server class.
+4. Launch the desired number of client instances using the command:
+   ```bash
+   mvn javafx:run
+5. Enjoy the game!
 
 ## Screenshots
 ### Initial game - 4 clients (One Operative and One Spymaster for each team)

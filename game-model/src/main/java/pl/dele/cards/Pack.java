@@ -14,13 +14,11 @@ import java.util.List;
  */
 public class Pack {
 
-    // == fields ==
     private static Logger log = LoggerFactory.getLogger(Pack.class);
     private final List<Card> cards;
     private final PackDetails details;
     private RoleMap cardsRoles;
 
-    // == constructors ==
     public Pack(IGenerateCards generator, int amount, int startingTeamAmount,
                 int blackCards) {
         if (generator == null) {
@@ -63,7 +61,6 @@ public class Pack {
         this.cardsRoles = new RoleMap(pack.cardsRoles);
     }
 
-    // == methods ==
     public List<Card> getCards() {
         return new ArrayList<>(cards);
     }
@@ -72,7 +69,6 @@ public class Pack {
         return details.isSTARTING_TEAM() ? TeamColor.BLUE_TEAM : TeamColor.RED_TEAM;
     }
 
-    // red, blue, neutral, black
     public CardRole getCardRole(Card card){
         return cardsRoles.getCardRole(card);
     }
@@ -81,21 +77,11 @@ public class Pack {
         return cardsRoles.amountOf(cardRole);
     }
 
-//    public RoleMap getCardsRoles(){
-//        return new RoleMap(cardsRoles);
-//    }
-
     public boolean containsCard(String phrase){
         return cards.contains(new Card(phrase));
     }
 
-    /**
-     * only the square number of cards is valid like
-     * 1x1, 2x2, 3x3, 4x4, 5x5, ...
-     * @return
-     */
     private boolean hasIntegerRoot(int number){
-        // invalid number
         if (number <= 0) return false;
 
         int root = (int) Math.sqrt(number);

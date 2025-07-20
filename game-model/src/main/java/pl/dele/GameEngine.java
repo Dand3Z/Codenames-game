@@ -20,18 +20,16 @@ public class GameEngine {
     private final Team redTeam;
     private final Team blueTeam;
     private final Map<Card, CardRole> uncoveredCards;
-    // left to guess ..... (map)
-    // amount of - how many of each cardRole is
 
-    private TeamColor guessingTeam; // whose turn is now
-    private PlayerType guessingRole; // whose role has turn
+    private TeamColor guessingTeam;
+    private PlayerType guessingRole;
 
     public GameEngine(Team redTeam, Team blueTeam, Pack pack) {
         this.redTeam = redTeam;
         this.blueTeam = blueTeam;
         this.pack = pack;
         this.guessingTeam = pack.whichTeamStarts();
-        this.guessingRole = PlayerType.SPYMASTER;  // spymaster always starts
+        this.guessingRole = PlayerType.SPYMASTER;
         this.uncoveredCards = new HashMap<>();
 
         observerSupport = new PropertyChangeSupport(this);
@@ -105,7 +103,7 @@ public class GameEngine {
 
     public void gameOver() {
         TeamColor winner = (guessingTeam == TeamColor.BLUE_TEAM) ? TeamColor.RED_TEAM : TeamColor.BLUE_TEAM;
-        notifyObservers(new PropertyChangeEvent(this, GAME_OVER, guessingTeam, winner)); // loser, winner
+        notifyObservers(new PropertyChangeEvent(this, GAME_OVER, guessingTeam, winner));
     }
 
     public void pass(){}
@@ -144,7 +142,6 @@ public class GameEngine {
     public TeamColor whoseTeamGuessing(){ return guessingTeam; }
     public PlayerType whoseRoleHasTurn(){ return guessingRole; }
 
-    // == join to team ==
     public void addRedTeamSpymaster(Spymaster spymaster){
         redTeam.addSpymaster(spymaster);
     }
@@ -165,7 +162,6 @@ public class GameEngine {
         return new Pack(pack);
     }
 
-    // == OBSERVER ==
     public void addObserver(String eventType, PropertyChangeListener obs){
         observerSupport.addPropertyChangeListener(eventType, obs);
     }

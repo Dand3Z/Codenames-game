@@ -45,7 +45,6 @@ public class PackTest {
 
     @Test
     void shouldStartTeamWithGreaterAmountCardsToGuess(){
-        // initial
         List<Card> cards = generator.generatePack(25);
         PackDetails details = new PackDetails(25,9,1);
         RoleMap cardsRoles = new RoleMap(cards, details);
@@ -53,7 +52,6 @@ public class PackTest {
         Pack pack = new Pack(cards, details, cardsRoles);
 
         // --- Test 1 ---
-        // check which team should start
         TeamColor startingTeam;
         if (details.getRED_CARDS_AMOUNT() > details.getBLUE_CARDS_AMOUNT()){
             startingTeam = TeamColor.RED_TEAM;

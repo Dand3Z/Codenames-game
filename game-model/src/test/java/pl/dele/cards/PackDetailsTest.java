@@ -14,7 +14,6 @@ public class PackDetailsTest {
         assertEquals(25,stats.getAMOUNT());
         assertEquals(1,stats.getBLACK_CARDS_AMOUNT());
 
-        // blue team starts
         if (stats.isSTARTING_TEAM()){
             assertEquals(9, stats.getBLUE_CARDS_AMOUNT());
             assertEquals(8, stats.getRED_CARDS_AMOUNT());
@@ -32,7 +31,6 @@ public class PackDetailsTest {
         assertEquals(36, stats.getAMOUNT());
         assertEquals(2,stats.getBLACK_CARDS_AMOUNT());
 
-        // blue team starts
         if (stats.isSTARTING_TEAM()){
             assertEquals(11, stats.getBLUE_CARDS_AMOUNT());
             assertEquals(10, stats.getRED_CARDS_AMOUNT());
